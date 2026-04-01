@@ -46,7 +46,7 @@ GOOS=linux GOARCH=amd64 go build -o bin/shadows cmd/shadows/main.go
 
 ## Project Structure
 
-```
+```text
 shadows/
 ├── cmd/shadows/           # Entry point and CLI commands
 │   └── main.go           # Main entry point
@@ -113,7 +113,7 @@ shadows/
 ### Adding New Features
 
 1. **Check the roadmap** - See `docs/architecture/ROADMAP.md` for planned features
-2. **Update todo list** - Use TodoWrite tool to track implementation steps
+2. **Update task list** - Use TaskCreate tool to track implementation steps
 3. **Write tests first** - TDD is encouraged
 4. **Document as you go** - Update relevant docs
 5. **Add educational comments** - Help future learners understand
