@@ -1,7 +1,4 @@
 // Package gitignore provides utilities for working with Git's exclude files.
-//
-// This package is in 'pkg/' instead of 'internal/' because the functionality
-// is generic enough that other projects might want to use it.
 package gitignore
 
 import (

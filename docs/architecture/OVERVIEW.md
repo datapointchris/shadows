@@ -13,7 +13,7 @@ Shadows manages "shadow files" - files that exist in your work repository but ar
 
 ## High-Level Architecture
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
 │                     Work Repository                         │
 │  /home/user/work/my-project/                               │
@@ -50,7 +50,7 @@ Shadows manages "shadow files" - files that exist in your work repository but ar
 
 ### Adding a Shadow File
 
-```
+```bash
 1. User runs: shadows add tests/test_chris_exp.py
                     │
                     ▼
@@ -68,7 +68,7 @@ Shadows manages "shadow files" - files that exist in your work repository but ar
 
 ### Syncing Between Environments
 
-```
+```yaml
 WSL: /home/user/work/my-project/tests/test_chris_exp.py
                     │
                     │ Modified
@@ -100,7 +100,7 @@ Windows: User runs: shadows sync
 
 ### Promoting a Shadow File
 
-```
+```bash
 1. User runs: shadows promote tests/test_chris_exp.py
                     │
                     ▼
@@ -118,19 +118,19 @@ Windows: User runs: shadows sync
 
 ## Components
 
-### 1. CLI Layer (`cmd/shadows/`)
+### 1. CLI Layer (`main.go` + command files)
 
 **Responsibility:** User interface
 - Parses commands and flags
 - Validates user input
-- Calls appropriate internal packages
+- Calls appropriate packages
 - Formats output for user
 
 **Technologies:**
 - Cobra for CLI framework
 - Bubbletea for TUI (future)
 
-### 2. Configuration (`internal/config/`)
+### 2. Configuration (`config/`)
 
 **Responsibility:** Manage settings and data types
 - Load/save global configuration
@@ -164,7 +164,7 @@ type ShadowFile struct {
 }
 ```
 
-### 3. Database (`internal/database/`)
+### 3. Database (`database/`)
 
 **Responsibility:** Persist data
 - Initialize database schema
@@ -203,7 +203,7 @@ CREATE TABLE shadow_files (
 );
 ```
 
-### 4. Shadow Operations (`internal/shadow/`)
+### 4. Shadow Operations (`shadow/`)
 
 **Responsibility:** Core shadow file management
 - Add files to shadow tracking
@@ -233,7 +233,7 @@ func ListFiles(repoName string) ([]ShadowFile, error)
 func PromoteFile(repoName, filePath string) error
 ```
 
-### 5. Sync Operations (`internal/sync/`)
+### 5. Sync Operations (`sync/`)
 
 **Responsibility:** Synchronize files between locations
 - Detect changes in work repo
@@ -249,7 +249,7 @@ func PromoteFile(repoName, filePath string) error
 - `merge.go` - Merge strategies
 
 **Sync Algorithm:**
-```
+```yaml
 1. For each shadow file:
    a. Get modification time from work repo location
    b. Get modification time from shadow repo
@@ -260,7 +260,7 @@ func PromoteFile(repoName, filePath string) error
       - If neither modified: skip
 ```
 
-### 6. Git Operations (`pkg/gitignore/`)
+### 6. Git Operations (`gitignore/`)
 
 **Responsibility:** Interact with Git
 - Add entries to .git/info/exclude
@@ -270,14 +270,8 @@ func PromoteFile(repoName, filePath string) error
 
 **Key Files:**
 - `exclude.go` - Manage .git/info/exclude
-- `operations.go` - Git commands
 
-**Why pkg/ instead of internal/?**
-- `pkg/` is for packages that could be used by other projects
-- `internal/` is for packages only used within Shadows
-- Git operations are generic enough to be reusable
-
-### 7. UI/TUI (`internal/ui/`)
+### 7. UI/TUI (`ui/`)
 
 **Responsibility:** Interactive user interfaces (future)
 - File browser
@@ -292,50 +286,21 @@ func PromoteFile(repoName, filePath string) error
 
 ## Directory Structure
 
-```
+```text
 shadows/
-├── cmd/
-│   └── shadows/
-│       └── main.go              # Entry point
-│
-├── internal/                    # Private packages
-│   ├── config/
-│   │   ├── config.go           # Configuration management
-│   │   └── types.go            # Data structures
-│   ├── database/
-│   │   ├── db.go               # Database connection
-│   │   ├── repository.go       # Repository operations
-│   │   ├── shadowfile.go       # Shadow file operations
-│   │   └── schema.sql          # Database schema
-│   ├── shadow/
-│   │   ├── shadow.go           # Main shadow operations
-│   │   ├── add.go              # Add files
-│   │   ├── promote.go          # Promote files
-│   │   └── list.go             # List files
-│   ├── sync/
-│   │   ├── sync.go             # Sync logic
-│   │   ├── detect.go           # Change detection
-│   │   ├── conflict.go         # Conflict resolution
-│   │   └── merge.go            # Merge strategies
-│   └── ui/
-│       └── tui.go              # TUI components (future)
-│
-├── pkg/                         # Public packages
-│   └── gitignore/
-│       ├── exclude.go          # .git/info/exclude management
-│       └── operations.go       # Git operations
-│
+├── main.go                      # Entry point
+├── config/
+│   ├── config.go               # Configuration management
+│   └── types.go                # Data structures
+├── gitignore/
+│   └── exclude.go              # .git/info/exclude management
+├── database/                    # SQLite operations (future)
+├── shadow/                      # Core shadow file operations (future)
+├── sync/                        # Sync logic (future)
 ├── docs/                        # Documentation
 │   ├── learning/               # Learning materials
 │   ├── architecture/           # Architecture docs
 │   └── api/                    # API/command reference
-│
-├── .shadows/                    # Runtime data (gitignored)
-│   ├── config.toml
-│   ├── shadows.db
-│   └── repos/
-│       └── my-project/
-│
 ├── go.mod                       # Go module definition
 ├── go.sum                       # Dependency checksums
 ├── README.md                    # Project overview
@@ -388,12 +353,9 @@ shadows/
 
 **Decision:** `.git/info/exclude` is perfect because shadow files are personal and shouldn't affect the team's `.gitignore`.
 
-### 4. Internal vs Pkg
+### 4. Flat Package Layout (No `internal/` or `pkg/`)
 
-**internal/**: Code that's specific to Shadows and shouldn't be imported by other projects
-**pkg/**: Code that's generic enough to be used by other projects
-
-Most of our code is in `internal/` because it's Shadows-specific.
+Shadows is a private CLI with no external consumers. The `internal/` enforcement and the `pkg/` convention both add friction without benefit — all packages live at the top level of the module.
 
 ### 5. Database + Git (Hybrid Approach)
 

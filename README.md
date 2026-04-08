@@ -30,7 +30,7 @@ Shadows provides:
 
 ## Project Status
 
-=§ **In Development** - This is a learning project built while learning Go. Expect rough edges!
+=ï¿½ **In Development** - This is a learning project built while learning Go. Expect rough edges!
 
 Current Phase: **Phase 1 - MVP**
 - [ ] Basic CLI structure
@@ -60,7 +60,7 @@ cd shadows
 go mod tidy
 
 # Build the binary
-go build -o bin/shadows cmd/shadows/main.go
+go build -o bin/shadows .
 
 # (Optional) Add to PATH
 export PATH=$PATH:$(pwd)/bin
@@ -93,11 +93,13 @@ shadows promote tests/test_my_experiment.py
 This project includes extensive documentation for both the project and learning Go:
 
 ### For Users
+
 - [User Guide](docs/USER_GUIDE.md) - How to use Shadows
 - [Command Reference](docs/api/COMMANDS.md) - Detailed command documentation
 - [Architecture Overview](docs/architecture/OVERVIEW.md) - How Shadows works
 
 ### For Developers & Learners
+
 - [Go Learning Path](docs/learning/GO_BASICS.md) - Learn Go while building this project
 - [Project Structure](docs/architecture/PROJECT_STRUCTURE.md) - How the codebase is organized
 - [Development Guide](docs/DEVELOPMENT.md) - How to contribute and develop

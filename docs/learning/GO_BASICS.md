@@ -21,12 +21,12 @@ This guide will help you learn Go while building the Shadows project. It's struc
 
 **Example from our project:**
 ```go
-// In cmd/shadows/main.go
+// In main.go
 package main  // This is an executable
 
 import (
     "fmt"  // Standard library package
-    "github.com/yourusername/shadows/internal/config"  // Our package
+    "github.com/yourusername/shadows/config"  // Our package
 )
 ```
 
@@ -104,7 +104,7 @@ func divide(a, b int) (result int, err error) {
 
 **In our project:**
 ```go
-// From internal/shadow/shadow.go
+// From shadow/shadow.go
 func AddFile(repoName, filePath string) error {
     // Do something
     if err := validatePath(filePath); err != nil {
@@ -720,10 +720,10 @@ func isGitRepo(path string) bool {
 ### Phase 1: Start Simple
 
 **Your first task:** Build the basic CLI structure
-1. Create `cmd/shadows/main.go` with a simple "Hello, world!"
+1. Edit `main.go` at the repo root to start with a simple "Hello, world!"
 2. Add Cobra and create root command
 3. Add `init` subcommand that just prints a message
-4. Build and run: `go build -o bin/shadows cmd/shadows/main.go`
+4. Build and run: `go build -o bin/shadows .`
 
 **Learning goals:**
 - Understand `package main` and `func main()`
@@ -733,7 +733,7 @@ func isGitRepo(path string) bool {
 ### Phase 2: Work with Files
 
 **Your second task:** Detect if we're in a Git repository
-1. Create `internal/git/operations.go`
+1. Create `git/operations.go`
 2. Write `IsGitRepo(path string) (bool, error)`
 3. Use it in the `init` command
 
@@ -745,7 +745,7 @@ func isGitRepo(path string) bool {
 ### Phase 3: Data Structures
 
 **Your third task:** Define our data models
-1. Create `internal/config/types.go`
+1. Create `config/types.go`
 2. Define `Repository` and `ShadowFile` structs
 3. Add methods to these structs
 
@@ -757,7 +757,7 @@ func isGitRepo(path string) bool {
 ### Phase 4: Database
 
 **Your fourth task:** Set up SQLite database
-1. Create `internal/database/db.go`
+1. Create `database/db.go`
 2. Implement `InitDB()`, `CreateRepo()`, `GetRepo()`
 3. Write SQL queries
 
@@ -769,22 +769,26 @@ func isGitRepo(path string) bool {
 ## Resources
 
 ### Official Documentation
+
 - [A Tour of Go](https://tour.golang.org/) - Interactive tutorial
 - [Effective Go](https://golang.org/doc/effective_go.html) - Best practices
 - [Go by Example](https://gobyexample.com/) - Code examples
 - [Go Standard Library](https://pkg.go.dev/std) - Reference
 
 ### Books
+
 - "The Go Programming Language" by Donovan & Kernighan
 - "Learning Go" by Jon Bodner
 - "100 Go Mistakes and How to Avoid Them" by Teiva Harsanyi
 
 ### Project-Specific Libraries
+
 - [Cobra Docs](https://cobra.dev/) - CLI framework
 - [Bubbletea Tutorial](https://github.com/charmbracelet/bubbletea/tree/master/tutorials) - TUI framework
 - [modernc.org/sqlite](https://pkg.go.dev/modernc.org/sqlite) - SQLite driver
 
 ### Videos
+
 - [Learn Go Programming - FreeCodeCamp](https://www.youtube.com/watch?v=YS4e4q9oBaU)
 - [Golang Tutorial for Beginners - TechWorld with Nana](https://www.youtube.com/watch?v=yyUHQIec83I)
 

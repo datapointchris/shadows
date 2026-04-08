@@ -5,10 +5,12 @@ This guide will help you set up your development environment and start building 
 ## Prerequisites
 
 ### Required
+
 - **Go 1.21 or higher** - [Install Go](https://golang.org/doc/install)
 - **Git** - Should already be installed on most systems
 
 ### Recommended
+
 - **VS Code** with Go extension - [Download VS Code](https://code.visualstudio.com/)
 - **SQLite Browser** - For inspecting the database: [Download DB Browser](https://sqlitebrowser.org/)
 
@@ -44,7 +46,7 @@ This will download all required packages:
 
 ```bash
 # Build the binary
-go build -o bin/shadows cmd/shadows/main.go
+go build -o bin/shadows .
 
 # Verify it works
 ./bin/shadows --help
@@ -64,41 +66,30 @@ The extension will prompt you to install Go tools. Click "Install All".
 
 ### Project Structure
 
-```
+```text
 shadows/
-├── cmd/shadows/main.go          # Entry point - start here!
-├── internal/                     # Private packages (can't be imported externally)
-│   ├── config/                  # Configuration management
-│   │   ├── config.go           # Load/save config
-│   │   └── types.go            # Data structures
-│   ├── database/                # Database operations
-│   │   ├── db.go               # Connection and initialization
-│   │   ├── repository.go       # Repository CRUD
-│   │   └── shadowfile.go       # Shadow file CRUD
-│   ├── shadow/                  # Core shadow file operations
-│   │   ├── shadow.go           # Main logic
-│   │   ├── add.go              # Add files
-│   │   ├── list.go             # List files
-│   │   └── promote.go          # Promote files (later)
-│   ├── sync/                    # Sync operations (later phases)
-│   └── ui/                      # TUI components (later phases)
-└── pkg/                         # Public packages (could be used by other projects)
-    └── gitignore/
-        ├── exclude.go          # Manage .git/info/exclude
-        └── operations.go       # Git operations
+├── main.go                      # Entry point - start here!
+├── config/                      # Configuration management
+│   ├── config.go               # Load/save config
+│   └── types.go                # Data structures
+├── gitignore/                   # .git/info/exclude management
+│   └── exclude.go
+├── database/                    # Database operations (future)
+├── shadow/                      # Core shadow file operations (future)
+└── sync/                        # Sync operations (future)
 ```
 
 ### Building and Running
 
 ```bash
 # Build
-go build -o bin/shadows cmd/shadows/main.go
+go build -o bin/shadows .
 
 # Run
 ./bin/shadows <command>
 
 # Or build and run in one step
-go run cmd/shadows/main.go <command>
+go run . <command>
 ```
 
 ### Common Commands During Development
@@ -117,14 +108,14 @@ go test ./...
 go test -cover ./...
 
 # Run tests for a specific package
-go test ./internal/config
+go test ./config
 
 # Run a specific test
-go test -run TestConfigLoad ./internal/config
+go test -run TestConfigLoad ./config
 
 # Build for specific OS (cross-compilation)
-GOOS=windows GOARCH=amd64 go build -o bin/shadows.exe cmd/shadows/main.go
-GOOS=linux GOARCH=amd64 go build -o bin/shadows cmd/shadows/main.go
+GOOS=windows GOARCH=amd64 go build -o bin/shadows.exe .
+GOOS=linux GOARCH=amd64 go build -o bin/shadows .
 ```
 
 ### Making Changes
@@ -163,7 +154,7 @@ Let's start by building the basic CLI structure with Cobra.
 
 ### Step 1: Understand main.go
 
-Open `cmd/shadows/main.go` and read through it. This is the entry point for the entire application.
+Open `main.go` at the repo root and read through it. This is the entry point for the entire application.
 
 **Key concepts:**
 - `package main` - This is an executable program
@@ -175,14 +166,14 @@ Open `cmd/shadows/main.go` and read through it. This is the entry point for the 
 Let's add the `init` command together.
 
 1. **Create the command file**
-   Create `cmd/shadows/init.go` (already exists with scaffold)
+   Create `init.go` in the repo root (same package as `main.go`)
 
 2. **Understand the code**
    Read through the file and the comments explaining each part
 
 3. **Build and test**
    ```bash
-   go build -o bin/shadows cmd/shadows/main.go
+   go build -o bin/shadows .
    ./bin/shadows init
    ```
 
@@ -278,7 +269,7 @@ go test ./...
 go test -v ./...
 
 # Run specific test
-go test -run TestLoadConfig ./internal/config
+go test -run TestLoadConfig ./config
 
 # Run with coverage
 go test -cover ./...
@@ -308,7 +299,7 @@ func someFunction() {
 go install github.com/go-delve/delve/cmd/dlv@latest
 
 # Debug your program
-dlv debug cmd/shadows/main.go -- init
+dlv debug . -- init
 
 # In the debugger:
 # (dlv) break main.main      # Set breakpoint
@@ -330,7 +321,7 @@ Create `.vscode/launch.json`:
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}/cmd/shadows",
+            "program": "${workspaceFolder}",
             "args": ["init"]
         }
     ]
@@ -442,7 +433,7 @@ func LoadConfig(path string) (*Config, error) {
 
 Follow the conventional commits format:
 
-```
+```yaml
 type(scope): subject
 
 body (optional)
@@ -459,7 +450,7 @@ footer (optional)
 - `chore`: Maintenance tasks
 
 **Examples:**
-```
+```bash
 feat(cli): add init command
 
 Implements the `shadows init` command that initializes
@@ -468,7 +459,7 @@ shadow tracking for a repository.
 Closes #12
 ```
 
-```
+```bash
 fix(database): handle nil pointer in GetRepository
 
 Added nil check before dereferencing repository pointer

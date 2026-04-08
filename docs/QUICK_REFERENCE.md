@@ -6,10 +6,10 @@ A quick cheat sheet for common tasks while developing Shadows.
 
 ```bash
 # Build
-go build -o bin/shadows cmd/shadows/main.go
+go build -o bin/shadows .
 
 # Run without building
-go run cmd/shadows/main.go [args]
+go run . [args]
 
 # Install dependencies
 go mod tidy
@@ -24,7 +24,7 @@ go vet ./...
 go test ./...
 go test -v ./...              # Verbose
 go test -cover ./...          # With coverage
-go test ./internal/config     # Specific package
+go test ./config              # Specific package
 
 # Update a dependency
 go get -u github.com/spf13/cobra
@@ -37,14 +37,13 @@ rm -rf bin/
 
 ## File Structure Quick Reference
 
-```
-cmd/shadows/          → CLI entry point and commands
-internal/config/      → Configuration and data types
-internal/database/    → SQLite operations
-internal/shadow/      → Shadow file operations
-internal/sync/        → Sync logic (later)
-internal/ui/          → TUI components (later)
-pkg/gitignore/        → .git/info/exclude utilities
+```text
+main.go               → CLI entry point and commands
+config/               → Configuration and data types
+gitignore/            → .git/info/exclude utilities
+database/             → SQLite operations (future)
+shadow/               → Shadow file operations (future)
+sync/                 → Sync logic (future)
 docs/                 → All documentation
 ```
 
@@ -223,6 +222,7 @@ panic(fmt.Sprintf("unexpected: %v", value))
 ## Common Errors and Fixes
 
 ### "undefined: Function"
+
 - Function not exported (starts with lowercase)
 - Missing import
 - Wrong package
@@ -230,16 +230,19 @@ panic(fmt.Sprintf("unexpected: %v", value))
 **Fix:** Make sure function name starts with uppercase
 
 ### "cannot use X (type Y) as type Z"
+
 - Type mismatch
 
 **Fix:** Convert types or check function signature
 
 ### "declared and not used"
+
 - Variable declared but never used
 
 **Fix:** Use `_` if you don't need the value: `_, err := ...`
 
 ### "missing return"
+
 - Function doesn't return in all code paths
 
 **Fix:** Add return statement
@@ -251,7 +254,7 @@ Before committing:
 - [ ] `go fmt ./...` - Format code
 - [ ] `go vet ./...` - Check for issues
 - [ ] `go test ./...` - Run tests
-- [ ] `go build -o bin/shadows cmd/shadows/main.go` - Build succeeds
+- [ ] `go build -o bin/shadows .` - Build succeeds
 - [ ] Manual test of new features
 - [ ] Update documentation if needed
 - [ ] Add comments to new code

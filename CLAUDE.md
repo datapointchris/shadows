@@ -19,10 +19,10 @@ Shadows is a CLI tool for managing personal development files that live in work 
 go mod tidy
 
 # Build the binary
-go build -o bin/shadows cmd/shadows/main.go
+go build -o bin/shadows .
 
 # Run without building
-go run cmd/shadows/main.go [command]
+go run . [command]
 
 # Format code (ALWAYS run before committing!)
 go fmt ./...
@@ -37,29 +37,25 @@ go test ./...
 go test -cover ./...
 
 # Run specific package tests
-go test ./internal/config
+go test ./config
 
 # Build for different platforms
-GOOS=windows GOARCH=amd64 go build -o bin/shadows.exe cmd/shadows/main.go
-GOOS=linux GOARCH=amd64 go build -o bin/shadows cmd/shadows/main.go
+GOOS=windows GOARCH=amd64 go build -o bin/shadows.exe .
+GOOS=linux GOARCH=amd64 go build -o bin/shadows .
 ```
 
 ## Project Structure
 
 ```text
 shadows/
-├── cmd/shadows/           # Entry point and CLI commands
-│   └── main.go           # Main entry point
-├── internal/             # Private packages (can't be imported externally)
-│   ├── config/          # Configuration and data structures
-│   │   ├── config.go   # Config loading/saving
-│   │   └── types.go    # Repository and ShadowFile structs
-│   ├── database/        # SQLite database operations
-│   ├── shadow/          # Core shadow file operations
-│   ├── sync/            # File synchronization logic
-│   └── ui/              # TUI components (future)
-├── pkg/                  # Public packages (reusable)
-│   └── gitignore/       # .git/info/exclude management
+├── main.go               # Entry point and CLI commands
+├── config/               # Configuration and data structures
+│   ├── config.go        # Config loading/saving
+│   └── types.go         # Repository and ShadowFile structs
+├── gitignore/            # .git/info/exclude management
+├── database/             # SQLite database operations (future)
+├── shadow/               # Core shadow file operations (future)
+├── sync/                 # File synchronization logic (future)
 └── docs/                 # Comprehensive documentation
     ├── learning/        # Go learning materials
     ├── architecture/    # Design docs
@@ -136,7 +132,7 @@ go test ./...
 go test -v ./...
 
 # Run specific test
-go test -run TestLoadConfig ./internal/config
+go test -run TestLoadConfig ./config
 
 # Check test coverage
 go test -cover ./...
@@ -151,14 +147,14 @@ go tool cover -html=coverage.out
 1. **Why SQLite?** - Lightweight, no server needed, perfect for CLI tools
 2. **Why Git for storage?** - Free versioning, backup, and conflict resolution
 3. **Why .git/info/exclude?** - Local only, doesn't affect team's .gitignore
-4. **Why internal/ vs pkg/?** - internal/ is Shadows-specific, pkg/ is reusable
+4. **Why top-level packages (not internal/ or pkg/)?** - Private CLI with no external consumers; the `internal/` restriction and `pkg/` convention both add friction with no benefit here
 5. **Why extensive comments?** - Learning project, helps Go beginners
 
 ## Common Tasks
 
 ### Add a new CLI command
 
-1. Create `cmd/shadows/<command>.go`
+1. Add a new `<command>.go` file at the repo root (same package as `main.go`)
 2. Define the command with Cobra
 3. Add to `init()` in `main.go`: `rootCmd.AddCommand(newCmd)`
 4. Implement the command logic
@@ -167,7 +163,7 @@ go tool cover -html=coverage.out
 
 ### Add a new database operation
 
-1. Define schema in `internal/database/schema.sql`
+1. Define schema in `database/schema.sql`
 2. Create functions in appropriate file (`repository.go`, `shadowfile.go`)
 3. Handle errors properly (always!)
 4. Add tests with temporary database
@@ -175,7 +171,7 @@ go tool cover -html=coverage.out
 
 ### Add a new configuration option
 
-1. Add field to `Config` struct in `internal/config/types.go`
+1. Add field to `Config` struct in `config/types.go`
 2. Update `DefaultConfig()` with default value
 3. Update `LoadConfig()` to read it (when TOML parsing is implemented)
 4. Update documentation
