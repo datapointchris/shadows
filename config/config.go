@@ -78,7 +78,7 @@ func EnsureShadowsDir() error {
 	//   - Others: read, execute (5 = 101 in binary)
 	//
 	// On Windows, this is ignored (Windows has different permissions)
-	err = os.MkdirAll(shadowsDir, 0755)
+	err = os.MkdirAll(shadowsDir, 0o755)
 	if err != nil {
 		return fmt.Errorf("failed to create shadows directory: %w", err)
 	}
@@ -155,5 +155,5 @@ func SaveConfig(cfg *Config, path string) error {
 
 	// TODO: Serialize Config to TOML and write to file
 	// For now, this is a placeholder
-	return fmt.Errorf("SaveConfig not yet implemented")
+	return fmt.Errorf("SaveConfig not yet implemented (target path %q)", path)
 }

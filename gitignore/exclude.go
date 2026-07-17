@@ -55,7 +55,7 @@ func GetExcludeFilePath(repoPath string) (string, error) {
 //   - If the pattern already exists, this is a no-op (not an error)
 //   - Creates .git/info/exclude if it doesn't exist
 //   - Preserves existing entries in the file
-func AddToExclude(repoPath, pattern string) error {
+func AddToExclude(repoPath, pattern string) (err error) {
 	excludePath, err := GetExcludeFilePath(repoPath)
 	if err != nil {
 		return err
@@ -63,7 +63,7 @@ func AddToExclude(repoPath, pattern string) error {
 
 	// Ensure the .git/info directory exists
 	infoDir := filepath.Dir(excludePath)
-	if err := os.MkdirAll(infoDir, 0755); err != nil {
+	if err := os.MkdirAll(infoDir, 0o755); err != nil {
 		return fmt.Errorf("failed to create .git/info directory: %w", err)
 	}
 
@@ -84,13 +84,18 @@ func AddToExclude(repoPath, pattern string) error {
 	// The | operator combines these flags (bitwise OR)
 	//
 	// 0644 permissions: owner can read/write, group and others can only read
-	file, err := os.OpenFile(excludePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(excludePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		return fmt.Errorf("failed to open exclude file: %w", err)
 	}
-	// defer schedules file.Close() to run when this function returns
-	// This ensures the file is always closed, even if we return early due to an error
-	defer file.Close()
+	// Close always runs on return; on this append-write a Close error can mean the
+	// pattern never persisted, so surface it via the named return unless an earlier
+	// error already applies.
+	defer func() {
+		if cerr := file.Close(); cerr != nil && err == nil {
+			err = fmt.Errorf("failed to close exclude file: %w", cerr)
+		}
+	}()
 
 	// Write the pattern followed by a newline
 	// _ ignores the number of bytes written (we don't need it)
@@ -206,7 +211,8 @@ func readLines(path string) ([]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to open file: %w", err)
 	}
-	defer file.Close()
+	// This is a read-only handle, so a Close error cannot lose data — ignore it.
+	defer func() { _ = file.Close() }()
 
 	// bufio.Scanner reads the file line by line efficiently
 	// It's better than reading the whole file into memory for large files
@@ -231,27 +237,38 @@ func readLines(path string) ([]string, error) {
 // writeLines writes a slice of strings to a file, one per line.
 //
 // This overwrites the file completely.
-func writeLines(path string, lines []string) error {
+func writeLines(path string, lines []string) (err error) {
 	// os.O_WRONLY: open for writing
 	// os.O_CREATE: create if doesn't exist
 	// os.O_TRUNC: truncate (clear) the file if it exists
-	file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	file, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0o644)
 	if err != nil {
 		return fmt.Errorf("failed to open file: %w", err)
 	}
-	defer file.Close()
+	// On a write, a failed Close can mean buffered data never reached disk, so
+	// surface it via the named return — unless an earlier error already applies.
+	defer func() {
+		if cerr := file.Close(); cerr != nil && err == nil {
+			err = fmt.Errorf("failed to close file: %w", cerr)
+		}
+	}()
 
 	// bufio.Writer buffers writes for efficiency
 	// Instead of writing each line individually to disk,
 	// it batches them together
 	writer := bufio.NewWriter(file)
-	defer writer.Flush() // Flush remaining buffered data
 
 	for _, line := range lines {
 		// Write the line with a newline
 		if _, err := fmt.Fprintln(writer, line); err != nil {
 			return fmt.Errorf("failed to write line: %w", err)
 		}
+	}
+
+	// Flush explicitly before the deferred Close; a flush error means the write
+	// did not fully reach the file and must not be swallowed.
+	if err := writer.Flush(); err != nil {
+		return fmt.Errorf("failed to flush writes: %w", err)
 	}
 
 	return nil
