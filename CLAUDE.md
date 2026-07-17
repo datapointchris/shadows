@@ -67,6 +67,7 @@ shadows/
 **Core Concept:** Shadow files are personal files that live naturally in a work repository but are tracked separately.
 
 **How it works:**
+
 1. User adds a file to shadow tracking: `shadows add tests/test_my_exp.py`
 2. File is copied to shadow storage: `~/.shadows/repos/my-project/tests/test_my_exp.py`
 3. File is added to `.git/info/exclude` (local gitignore)
@@ -75,6 +76,7 @@ shadows/
 6. When ready, promote to work repo: `shadows promote tests/test_my_exp.py`
 
 **Key Components:**
+
 - **SQLite Database** - Tracks which files are shadowed, repository locations, status
 - **Git Storage** - Shadow files stored in Git repos for versioning
 - **.git/info/exclude** - Local gitignore so work repo doesn't see shadow files
@@ -93,6 +95,7 @@ shadows/
    - File names: lowercase with underscores (`shadow_file.go`)
 
 3. **Error Handling**:
+
    ```go
    // Always check errors immediately
    result, err := doSomething()
@@ -197,6 +200,7 @@ go tool cover -html=coverage.out
 **Focus:** Basic shadow file tracking without sync or Git integration
 
 **Tasks:**
+
 - [ ] Basic CLI structure with Cobra
 - [ ] Database setup and schema
 - [ ] `shadows init` command

@@ -5,6 +5,7 @@ Welcome! This guide will help you get started building Shadows while learning Go
 ## Prerequisites
 
 Make sure you have:
+
 - ✅ Go 1.21+ installed (`go version` to check)
 - ✅ Git installed
 - ✅ A text editor (VS Code recommended)
@@ -55,44 +56,52 @@ ls -la
 Open these files and read through them carefully. They're heavily commented to teach you Go:
 
 ### 1. Start with the entry point
+
 ```bash
 # Open in your editor
 code cmd/shadows/main.go  # or vim, nano, etc.
 ```
 
 Read every line and comment. This shows you:
+
 - How Go programs start
 - Basic Cobra CLI setup
 - Package structure
 - Error handling
 
 ### 2. Look at the data structures
+
 ```bash
 code internal/config/types.go
 ```
 
 This teaches you:
+
 - Structs (Go's main data structure)
 - Methods on structs
 - Constants
 - Struct tags for serialization
 
 ### 3. Check out the config package
+
 ```bash
 code internal/config/config.go
 ```
 
 This shows you:
+
 - File path handling (cross-platform!)
 - Error handling patterns
 - Working with the filesystem
 
 ### 4. Examine the gitignore package
+
 ```bash
 code pkg/gitignore/exclude.go
 ```
 
 This demonstrates:
+
 - File reading and writing
 - Buffered I/O
 - Helper functions
@@ -105,16 +114,19 @@ Let's implement the basic CLI structure with actual commands!
 ### Task: Make `shadows --help` more functional
 
 1. **Format the existing code**
+
    ```bash
    go fmt ./...
    ```
 
 2. **Check for issues**
+
    ```bash
    go vet ./...
    ```
 
 3. **Build and test**
+
    ```bash
    go build -o bin/shadows cmd/shadows/main.go
    ./bin/shadows --help
@@ -172,6 +184,7 @@ For each feature:
    - Reference the learning docs when you use new Go concepts
 
 4. **Test and refine**
+
    ```bash
    go test ./...
    go fmt ./...
@@ -179,6 +192,7 @@ For each feature:
    ```
 
 5. **Try it out**
+
    ```bash
    go build -o bin/shadows cmd/shadows/main.go
    ./bin/shadows <your-command>
@@ -189,11 +203,13 @@ For each feature:
 As you build, refer to these:
 
 ### In This Project
+
 - `docs/learning/GO_BASICS.md` - Go language fundamentals
 - `docs/DEVELOPMENT.md` - Development practices
 - `docs/architecture/OVERVIEW.md` - How the pieces fit together
 
 ### External Resources
+
 - [A Tour of Go](https://tour.golang.org/) - Interactive Go tutorial
 - [Go by Example](https://gobyexample.com/) - Code examples
 - [Effective Go](https://golang.org/doc/effective_go.html) - Best practices
@@ -221,22 +237,28 @@ go test -cover ./...
 ## Common Questions
 
 ### Q: What should I work on first?
+
 **A:** Follow the Phase 1 tasks in order. Database schema → Database package → Init command → Add command → List command.
 
 ### Q: I don't understand Go syntax X
+
 **A:** Check `docs/learning/GO_BASICS.md` first. If it's not there, search [Go by Example](https://gobyexample.com/) or use `go doc`.
 
 ### Q: How do I debug?
+
 **A:** Use `fmt.Printf()` for simple debugging. For more advanced debugging, use Delve or VS Code's debugger (see `docs/DEVELOPMENT.md`).
 
 ### Q: My code doesn't compile
+
 **A:** Read the error message carefully! Go's error messages are very helpful. Common issues:
+
 - Missing import
 - Wrong type
 - Undefined variable
 - Forgotten error check
 
 ### Q: How do I know if my code is "good Go"?
+
 **A:** Run `go fmt ./...` and `go vet ./...`. Read through examples in the standard library. Keep it simple!
 
 ## Development Workflow Example

@@ -9,6 +9,7 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 2-3 weeks for a Go beginner
 
 ### Features
+
 - [ ] Initialize shadow tracking for a repository
 - [ ] Add files to shadow tracking
 - [ ] Remove files from shadow tracking
@@ -18,6 +19,7 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 ### Technical Tasks
 
 #### Week 1: Foundation
+
 - [ ] Set up project structure
 - [ ] Create basic CLI with Cobra
   - [ ] `shadows` - root command
@@ -34,6 +36,7 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
   - [ ] Define data structures (Repository, ShadowFile)
 
 #### Week 2: Core Functionality
+
 - [ ] Implement `shadows init`
   - [ ] Detect Git repository
   - [ ] Prompt for repository info
@@ -50,6 +53,7 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
   - [ ] Add filtering options
 
 #### Week 3: Polish
+
 - [ ] Error handling improvements
 - [ ] Input validation
 - [ ] Help text and documentation
@@ -57,12 +61,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 - [ ] Integration testing
 
 ### Deliverables
+
 - Working CLI tool
 - Basic file tracking
 - Documentation for commands
 - Test coverage > 50%
 
 ### Success Criteria
+
 - Can track files in a work repository
 - Files are added to .git/info/exclude
 - Can list tracked files
@@ -77,12 +83,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 2 weeks
 
 ### Features
+
 - [ ] Shadow files stored in Git repository
 - [ ] Commit shadow file changes
 - [ ] View shadow file history
 - [ ] Restore previous versions
 
 ### Technical Tasks
+
 - [ ] Create Git repository for shadow storage
 - [ ] Implement Git operations
   - [ ] `git init` for shadow repo
@@ -95,12 +103,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 - [ ] Add `shadows diff <file>` command
 
 ### Deliverables
+
 - Git-backed shadow storage
 - Version history for shadow files
 - Ability to restore previous versions
 - Diff viewing
 
 ### Success Criteria
+
 - Shadow files are tracked by Git
 - Can view history of shadow files
 - Can restore previous versions
@@ -115,12 +125,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 2-3 weeks
 
 ### Features
+
 - [ ] Detect changes in work repository
 - [ ] Detect changes in shadow repository
 - [ ] Sync files between locations
 - [ ] Simple conflict detection (warn user)
 
 ### Technical Tasks
+
 - [ ] Implement change detection
   - [ ] Compare modification times
   - [ ] Detect new shadow files
@@ -136,11 +148,13 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
   - [ ] Warn user and ask which to keep
 
 ### Deliverables
+
 - Working sync between environments
 - Status command to preview changes
 - Basic conflict detection
 
 ### Success Criteria
+
 - Can sync shadow files between WSL and Windows
 - Changes in work repo are captured
 - Changes in shadow repo are applied to work repo
@@ -155,12 +169,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 2 weeks
 
 ### Features
+
 - [ ] Automatic conflict resolution for non-conflicting changes
 - [ ] Interactive conflict resolution
 - [ ] Merge strategies (ours, theirs, manual)
 - [ ] Dry-run mode for sync
 
 ### Technical Tasks
+
 - [ ] Implement smart diff detection
   - [ ] Use Git diff instead of timestamps
   - [ ] Detect non-conflicting changes
@@ -175,11 +191,13 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
   - [ ] Guide user through resolution
 
 ### Deliverables
+
 - Smart conflict resolution
 - Multiple merge strategies
 - Better user experience for syncing
 
 ### Success Criteria
+
 - Non-conflicting changes auto-merge
 - Conflicting changes present clear options
 - Users can choose merge strategy
@@ -194,12 +212,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 1-2 weeks
 
 ### Features
+
 - [ ] Promote shadow files to work repository
 - [ ] Clean up promoted files from shadow tracking
 - [ ] Garbage collection for deleted files
 - [ ] Shadow file lifecycle management
 
 ### Technical Tasks
+
 - [ ] Implement `shadows promote <file>`
   - [ ] Remove from .git/info/exclude
   - [ ] Mark as "promoted" in database
@@ -217,11 +237,13 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
   - [ ] "deleted" - removed from shadow tracking
 
 ### Deliverables
+
 - File promotion system
 - Cleanup commands
 - Lifecycle management
 
 ### Success Criteria
+
 - Can promote shadow files to work repo
 - Promoted files are removed from shadow tracking
 - Can clean up orphaned files
@@ -236,12 +258,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 1 week
 
 ### Features
+
 - [ ] Configure remote for shadow repository
 - [ ] Push shadow repo to remote
 - [ ] Pull shadow repo from remote
 - [ ] Clone shadow repo on new machine
 
 ### Technical Tasks
+
 - [ ] Add `shadows remote add <url>` command
 - [ ] Add `shadows push` command
 - [ ] Add `shadows pull` command
@@ -250,11 +274,13 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 - [ ] Handle authentication (use Git's credential helper)
 
 ### Deliverables
+
 - Remote backup capability
 - Ability to sync shadow files across machines
 - Clone shadow repos on new machines
 
 ### Success Criteria
+
 - Can push shadow repo to personal Git remote
 - Can pull shadow repo from remote
 - Can set up shadow tracking on new machine
@@ -268,12 +294,14 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 2-3 weeks
 
 ### Features
+
 - [ ] Interactive file browser
 - [ ] Visual diff viewer
 - [ ] Conflict resolution UI
 - [ ] Status dashboard
 
 ### Technical Tasks
+
 - [ ] Set up Bubbletea framework
 - [ ] Create file browser component
   - [ ] List shadow files
@@ -292,11 +320,13 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
   - [ ] Quick actions
 
 ### Deliverables
+
 - Interactive TUI mode
 - Better user experience
 - Visual tools for common tasks
 
 ### Success Criteria
+
 - Can browse shadow files interactively
 - Can view diffs visually
 - Can resolve conflicts in TUI
@@ -311,6 +341,7 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 **Timeline:** 3-4 weeks
 
 ### Features
+
 - [ ] Shadow groups (tagging)
 - [ ] Ignore patterns
 - [ ] Hooks (pre/post operation scripts)
@@ -322,47 +353,56 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 ### Technical Tasks
 
 #### Shadow Groups
+
 - [ ] Add "groups" concept (e.g., "experiments", "helpers")
 - [ ] Tag shadow files with groups
 - [ ] Filter by group in list/sync commands
 - [ ] Group-based operations
 
 #### Ignore Patterns
+
 - [ ] Add ignore patterns to config
 - [ ] Don't sync certain file types
 - [ ] Gitignore-style pattern matching
 
 #### Hooks
+
 - [ ] Define hook points (pre-add, post-add, pre-sync, post-sync)
 - [ ] Allow users to configure shell commands to run
 - [ ] Pass context to hooks (file path, operation type)
 
 #### Templates
+
 - [ ] Define file templates (e.g., "python-test", "bash-script")
 - [ ] Quick-add files from templates
 - [ ] Template variables (e.g., {{filename}})
 
 #### Import/Export
+
 - [ ] Export shadow configuration to file
 - [ ] Import shadow configuration from file
 - [ ] Share configs between machines
 
 #### Multiple Repos
+
 - [ ] Support multiple work repositories
 - [ ] Global commands (list all shadow files across repos)
 - [ ] Switch between repos easily
 
 #### Bulk Operations
+
 - [ ] Add multiple files at once
 - [ ] Promote multiple files
 - [ ] Sync multiple repos
 
 ### Deliverables
+
 - Feature-complete shadow management tool
 - Power user features
 - Highly configurable
 
 ### Success Criteria
+
 - Can manage shadow files across multiple repos
 - Can customize behavior with hooks
 - Can organize shadow files with groups
@@ -421,6 +461,7 @@ Throughout all phases, we maintain these principles:
 ## Questions & Feedback
 
 If you have ideas for features or improvements to the roadmap, please:
+
 1. Open an issue on GitHub
 2. Discuss in the project Discord/Slack
 3. Submit a PR with proposed changes to this roadmap

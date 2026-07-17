@@ -5,6 +5,7 @@
 ## The Problem
 
 As a developer, you often have:
+
 - Personal test files in `tests/` that you want to run but not commit
 - Helper scripts in the natural location but not ready for production
 - Experiments that need to stay with the project but aren't part of the official codebase
@@ -12,6 +13,7 @@ As a developer, you often have:
 - Eventually, some of these files get promoted to the main repository
 
 Traditional solutions have issues:
+
 - Hidden subdirectories break the natural workflow
 - Separate repositories fragment your codebase
 - Manual .gitignore management is error-prone
@@ -21,6 +23,7 @@ Traditional solutions have issues:
 ## The Solution
 
 Shadows provides:
+
 1. **Natural file placement** - Keep files where they belong (tests in `tests/`, scripts in `scripts/`)
 2. **Automatic .git/info/exclude management** - Files are ignored in work repo but tracked by Shadows
 3. **Git-backed storage** - Your shadow files get full version control
@@ -33,6 +36,7 @@ Shadows provides:
 =� **In Development** - This is a learning project built while learning Go. Expect rough edges!
 
 Current Phase: **Phase 1 - MVP**
+
 - [ ] Basic CLI structure
 - [ ] Initialize shadow tracking for a repo
 - [ ] Add files to shadow tracking
@@ -123,6 +127,7 @@ MIT License - See [LICENSE](LICENSE) for details
 ## Acknowledgments
 
 Built with:
+
 - [Cobra](https://github.com/spf13/cobra) - CLI framework
 - [Bubbletea](https://github.com/charmbracelet/bubbletea) - TUI framework
 - [modernc.org/sqlite](https://gitlab.com/cznic/sqlite) - Pure Go SQLite

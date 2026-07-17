@@ -50,6 +50,7 @@ docs/                 → All documentation
 ## Common Go Patterns
 
 ### Error Handling
+
 ```go
 result, err := doSomething()
 if err != nil {
@@ -58,6 +59,7 @@ if err != nil {
 ```
 
 ### Reading a File
+
 ```go
 data, err := os.ReadFile(path)
 if err != nil {
@@ -66,6 +68,7 @@ if err != nil {
 ```
 
 ### Writing a File
+
 ```go
 err := os.WriteFile(path, data, 0644)
 if err != nil {
@@ -74,6 +77,7 @@ if err != nil {
 ```
 
 ### Defer for Cleanup
+
 ```go
 file, err := os.Open(path)
 if err != nil {
@@ -84,6 +88,7 @@ defer file.Close()
 ```
 
 ### Struct with Methods
+
 ```go
 type MyStruct struct {
     Field string
@@ -96,6 +101,7 @@ func (m *MyStruct) Method() error {
 ```
 
 ### Table-Driven Tests
+
 ```go
 tests := []struct {
     name    string
@@ -195,7 +201,7 @@ git merge feature/my-feature
 ## Documentation Files
 
 | File | Purpose |
-|------|---------|
+| ------ | --------- |
 | `README.md` | Project overview |
 | `GETTING_STARTED.md` | First steps for new developers |
 | `CLAUDE.md` | AI coding assistant guide |
@@ -262,7 +268,7 @@ Before committing:
 ## Useful Go Packages
 
 | Package | Purpose |
-|---------|---------|
+| --------- | --------- |
 | `os` | File system operations |
 | `os/exec` | Execute commands |
 | `path/filepath` | Cross-platform file paths |
@@ -288,7 +294,7 @@ go doc -http=:6060
 ## VS Code Shortcuts
 
 | Action | Shortcut |
-|--------|----------|
+| -------- | ---------- |
 | Format document | Shift+Alt+F |
 | Go to definition | F12 |
 | Find references | Shift+F12 |

@@ -38,6 +38,7 @@ go mod tidy
 ```
 
 This will download all required packages:
+
 - `github.com/spf13/cobra` - CLI framework
 - `github.com/charmbracelet/bubbletea` - TUI framework (for later phases)
 - `modernc.org/sqlite` - SQLite database driver
@@ -55,6 +56,7 @@ go build -o bin/shadows .
 ### 5. Set Up Your Editor (VS Code)
 
 If using VS Code, install the Go extension:
+
 1. Open VS Code
 2. Press `Cmd+Shift+X` (Mac) or `Ctrl+Shift+X` (Windows/Linux)
 3. Search for "Go"
@@ -121,6 +123,7 @@ GOOS=linux GOARCH=amd64 go build -o bin/shadows .
 ### Making Changes
 
 1. **Create a branch**
+
    ```bash
    git checkout -b feature/your-feature-name
    ```
@@ -131,6 +134,7 @@ GOOS=linux GOARCH=amd64 go build -o bin/shadows .
    - Update documentation
 
 3. **Test your changes**
+
    ```bash
    go fmt ./...
    go vet ./...
@@ -138,12 +142,14 @@ GOOS=linux GOARCH=amd64 go build -o bin/shadows .
    ```
 
 4. **Commit**
+
    ```bash
    git add .
    git commit -m "Add feature: your feature description"
    ```
 
 5. **Push and create PR**
+
    ```bash
    git push origin feature/your-feature-name
    ```
@@ -157,6 +163,7 @@ Let's start by building the basic CLI structure with Cobra.
 Open `main.go` at the repo root and read through it. This is the entry point for the entire application.
 
 **Key concepts:**
+
 - `package main` - This is an executable program
 - `func main()` - The function that runs when you execute the program
 - Cobra command structure
@@ -172,6 +179,7 @@ Let's add the `init` command together.
    Read through the file and the comments explaining each part
 
 3. **Build and test**
+
    ```bash
    go build -o bin/shadows .
    ./bin/shadows init
@@ -194,6 +202,7 @@ Follow the TODO comments in the scaffold code!
 Go makes testing easy. For every file `foo.go`, create a test file `foo_test.go`.
 
 **Example: config_test.go**
+
 ```go
 package config
 
@@ -312,6 +321,7 @@ dlv debug . -- init
 ### VS Code Debugging
 
 Create `.vscode/launch.json`:
+
 ```json
 {
     "version": "0.2.0",
@@ -339,6 +349,7 @@ Now you can set breakpoints in VS Code and press F5 to debug!
 ### Issue: "undefined: SomeFunction"
 
 **Solution:**
+
 1. Make sure the function name starts with a capital letter (exported)
 2. Make sure you've imported the correct package
 3. Run `go mod tidy` if it's a new dependency
@@ -358,6 +369,7 @@ func TestSomething(t *testing.T) {
 ### Issue: "go: finding module for package X"
 
 **Solution:** The module path might be wrong in `go.mod`. Update it or run:
+
 ```bash
 go get package-name@latest
 go mod tidy
@@ -442,6 +454,7 @@ footer (optional)
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -450,6 +463,7 @@ footer (optional)
 - `chore`: Maintenance tasks
 
 **Examples:**
+
 ```bash
 feat(cli): add init command
 

@@ -121,28 +121,33 @@ Windows: User runs: shadows sync
 ### 1. CLI Layer (`main.go` + command files)
 
 **Responsibility:** User interface
+
 - Parses commands and flags
 - Validates user input
 - Calls appropriate packages
 - Formats output for user
 
 **Technologies:**
+
 - Cobra for CLI framework
 - Bubbletea for TUI (future)
 
 ### 2. Configuration (`config/`)
 
 **Responsibility:** Manage settings and data types
+
 - Load/save global configuration
 - Define data structures (Repository, ShadowFile)
 - Validate configuration
 - Provide default values
 
 **Key Files:**
+
 - `config.go` - Configuration loading/saving
 - `types.go` - Data structure definitions
 
 **Data Structures:**
+
 ```go
 type Repository struct {
     ID              int
@@ -167,18 +172,21 @@ type ShadowFile struct {
 ### 3. Database (`database/`)
 
 **Responsibility:** Persist data
+
 - Initialize database schema
 - CRUD operations for repositories
 - CRUD operations for shadow files
 - Queries for listing and searching
 
 **Key Files:**
+
 - `db.go` - Database initialization and connection
 - `repository.go` - Repository operations
 - `shadowfile.go` - Shadow file operations
 - `schema.sql` - Database schema
 
 **Schema:**
+
 ```sql
 CREATE TABLE repositories (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -206,6 +214,7 @@ CREATE TABLE shadow_files (
 ### 4. Shadow Operations (`shadow/`)
 
 **Responsibility:** Core shadow file management
+
 - Add files to shadow tracking
 - Remove files from shadow tracking
 - List shadow files
@@ -213,12 +222,14 @@ CREATE TABLE shadow_files (
 - Check shadow file status
 
 **Key Files:**
+
 - `shadow.go` - Main shadow operations
 - `add.go` - Adding files
 - `promote.go` - Promoting files
 - `list.go` - Listing files
 
 **Key Functions:**
+
 ```go
 // Add a file to shadow tracking
 func AddFile(repoName, filePath string) error
@@ -236,6 +247,7 @@ func PromoteFile(repoName, filePath string) error
 ### 5. Sync Operations (`sync/`)
 
 **Responsibility:** Synchronize files between locations
+
 - Detect changes in work repo
 - Detect changes in shadow repo
 - Copy files between locations
@@ -243,12 +255,14 @@ func PromoteFile(repoName, filePath string) error
 - Merge strategies
 
 **Key Files:**
+
 - `sync.go` - Main sync logic
 - `detect.go` - Change detection
 - `conflict.go` - Conflict detection and resolution
 - `merge.go` - Merge strategies
 
 **Sync Algorithm:**
+
 ```yaml
 1. For each shadow file:
    a. Get modification time from work repo location
@@ -263,23 +277,27 @@ func PromoteFile(repoName, filePath string) error
 ### 6. Git Operations (`gitignore/`)
 
 **Responsibility:** Interact with Git
+
 - Add entries to .git/info/exclude
 - Remove entries from .git/info/exclude
 - Check if path is in a Git repository
 - Validate Git repository state
 
 **Key Files:**
+
 - `exclude.go` - Manage .git/info/exclude
 
 ### 7. UI/TUI (`ui/`)
 
 **Responsibility:** Interactive user interfaces (future)
+
 - File browser
 - Diff viewer
 - Conflict resolution UI
 - Progress indicators
 
 **Technologies:**
+
 - Bubbletea - TUI framework
 - Lipgloss - Styling
 - Bubbles - TUI components
@@ -312,6 +330,7 @@ shadows/
 ### 1. Why SQLite?
 
 **Pros:**
+
 - No separate database server needed
 - Single file, easy to backup
 - Fast for our use case (small datasets)
@@ -319,6 +338,7 @@ shadows/
 - Supports transactions
 
 **Cons:**
+
 - Not suitable for concurrent writes (but we don't need that)
 - Not distributed (but we don't need that either)
 
@@ -327,6 +347,7 @@ shadows/
 ### 2. Why Git for Shadow Storage?
 
 **Pros:**
+
 - Built-in version control
 - Built-in diff/merge tools
 - Can push to remote for backup
@@ -334,6 +355,7 @@ shadows/
 - Handles file history automatically
 
 **Cons:**
+
 - Adds complexity
 - Requires Git to be installed
 
@@ -342,12 +364,14 @@ shadows/
 ### 3. Why .git/info/exclude instead of .gitignore?
 
 **Pros:**
+
 - Local to your machine only
 - Doesn't require committing to work repo
 - Work team doesn't see your ignore rules
 - Can't accidentally commit it
 
 **Cons:**
+
 - Doesn't sync with work repo
 - Need to set up on each machine
 
@@ -360,16 +384,19 @@ Shadows is a private CLI with no external consumers. The `internal/` enforcement
 ### 5. Database + Git (Hybrid Approach)
 
 **Why both?**
+
 - Database: Fast queries, metadata, status tracking
 - Git: File storage, versioning, history, backup
 
 **Database stores:**
+
 - Which files are shadowed
 - Repository locations (WSL/Windows paths)
 - Status (shadowed/promoted/deleted)
 - Timestamps
 
 **Git stores:**
+
 - Actual file contents
 - File history
 - Versions of shadow files
@@ -416,6 +443,7 @@ Go uses explicit error handling (no exceptions). Our strategy:
 4. **Table-driven tests** - Go's idiomatic testing pattern
 
 Example:
+
 ```go
 func TestAddFile(t *testing.T) {
     tests := []struct {

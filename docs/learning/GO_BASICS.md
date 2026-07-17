@@ -14,12 +14,14 @@ This guide will help you learn Go while building the Shadows project. It's struc
 ### 1. Package and Import System
 
 **What you need to know:**
+
 - Every Go file belongs to a package
 - `package main` is special - it creates an executable program
 - Other packages are libraries that can be imported
 - Import paths match directory structure
 
 **Example from our project:**
+
 ```go
 // In main.go
 package main  // This is an executable
@@ -31,6 +33,7 @@ import (
 ```
 
 **Key rules:**
+
 - Package name should match the last element of import path
 - Internal packages (`internal/`) can only be imported by code in the same module
 - Exported names start with capital letters (public), lowercase = private
@@ -38,6 +41,7 @@ import (
 ### 2. Variables and Types
 
 **Basic types:**
+
 ```go
 // Declaration
 var name string           // Declares a string, initialized to ""
@@ -60,6 +64,7 @@ var (
 ```
 
 **Common types in our project:**
+
 ```go
 string              // Text
 int, int64          // Integers
@@ -72,6 +77,7 @@ error               // Special interface for errors
 ### 3. Functions
 
 **Basic syntax:**
+
 ```go
 // Function with parameters and return value
 func add(a int, b int) int {
@@ -103,6 +109,7 @@ func divide(a, b int) (result int, err error) {
 ```
 
 **In our project:**
+
 ```go
 // From shadow/shadow.go
 func AddFile(repoName, filePath string) error {
@@ -138,6 +145,7 @@ result, _ := doSomething()  // BAD! _ ignores the error
 ```
 
 **Pattern you'll see everywhere:**
+
 ```go
 func processFile(path string) error {
     file, err := os.Open(path)
@@ -159,6 +167,7 @@ func processFile(path string) error {
 ### 5. Structs (Custom Types)
 
 **Defining and using structs:**
+
 ```go
 // Define a struct
 type Repository struct {
@@ -184,6 +193,7 @@ repo1.WSLPath = "/new/path"
 ```
 
 **Methods on structs:**
+
 ```go
 // Method with receiver
 func (r *Repository) IsValid() bool {
@@ -197,6 +207,7 @@ if repo1.IsValid() {
 ```
 
 **Pointer vs Value receivers:**
+
 ```go
 // Value receiver - gets a copy
 func (r Repository) PrintName() {
@@ -210,6 +221,7 @@ func (r *Repository) SetName(name string) {
 ```
 
 **Rule of thumb:** Use pointer receivers (`*T`) when:
+
 - You need to modify the struct
 - The struct is large (copying is expensive)
 - You want consistency (if some methods use `*T`, all should)
@@ -217,6 +229,7 @@ func (r *Repository) SetName(name string) {
 ### 6. Slices and Maps
 
 **Slices (dynamic arrays):**
+
 ```go
 // Creating slices
 var files []string              // nil slice, length 0
@@ -248,6 +261,7 @@ for i := range files {
 ```
 
 **Maps (hash tables):**
+
 ```go
 // Creating maps
 var settings map[string]string           // nil map - can't be used!
@@ -307,6 +321,7 @@ var s Syncer = &FileSyncer{path: "/tmp"}
 ```
 
 **Empty interface:**
+
 ```go
 interface{}  // or 'any' in Go 1.18+
 
@@ -317,6 +332,7 @@ x = []int{1, 2, 3}
 ```
 
 **Common interfaces you'll use:**
+
 ```go
 // error interface
 type error interface {
@@ -353,6 +369,7 @@ fmt.Println(x)    // Prints 100 (x was modified)
 ```
 
 **When to use pointers:**
+
 ```go
 // To modify function arguments
 func increment(n *int) {
@@ -374,6 +391,7 @@ func process(ls *LargeStruct) {
 ```
 
 **nil pointers:**
+
 ```go
 var p *int        // p is nil
 if p == nil {
@@ -387,6 +405,7 @@ if p == nil {
 ### 9. Control Flow
 
 **If statements:**
+
 ```go
 // Basic if
 if x > 10 {
@@ -413,6 +432,7 @@ if x > 0 && x < 10 {
 ```
 
 **For loops (only loop in Go!):**
+
 ```go
 // Traditional for loop
 for i := 0; i < 10; i++ {
@@ -439,6 +459,7 @@ for i, val := range slice {
 ```
 
 **Switch statements:**
+
 ```go
 // Basic switch
 switch day {
@@ -499,6 +520,7 @@ func example() {
 ```
 
 **panic and recover:**
+
 ```go
 // panic - stops normal execution
 func mustSucceed() {
@@ -529,6 +551,7 @@ func safeExecute() {
 Cobra is a framework for building CLI applications.
 
 **Basic structure:**
+
 ```go
 // A command
 var rootCmd = &cobra.Command{
@@ -558,6 +581,7 @@ func main() {
 ```
 
 **Flags:**
+
 ```go
 var verbose bool
 var config string
@@ -571,6 +595,7 @@ initCmd.Flags().StringVarP(&config, "config", "c", "", "Config file")
 We use `modernc.org/sqlite` - a pure Go SQLite driver.
 
 **Basic pattern:**
+
 ```go
 import (
     "database/sql"
@@ -619,6 +644,7 @@ for rows.Next() {
 ### 3. File Operations
 
 **Reading files:**
+
 ```go
 import (
     "os"
@@ -643,6 +669,7 @@ data, err := io.ReadAll(file)
 ```
 
 **Writing files:**
+
 ```go
 // Write entire file
 data := []byte("Hello, world!")
@@ -659,6 +686,7 @@ _, err = file.WriteString("Hello, world!")
 ```
 
 **File paths:**
+
 ```go
 import (
     "path/filepath"
@@ -720,12 +748,14 @@ func isGitRepo(path string) bool {
 ### Phase 1: Start Simple
 
 **Your first task:** Build the basic CLI structure
+
 1. Edit `main.go` at the repo root to start with a simple "Hello, world!"
 2. Add Cobra and create root command
 3. Add `init` subcommand that just prints a message
 4. Build and run: `go build -o bin/shadows .`
 
 **Learning goals:**
+
 - Understand `package main` and `func main()`
 - Use imports
 - Build a Go program
@@ -733,11 +763,13 @@ func isGitRepo(path string) bool {
 ### Phase 2: Work with Files
 
 **Your second task:** Detect if we're in a Git repository
+
 1. Create `git/operations.go`
 2. Write `IsGitRepo(path string) (bool, error)`
 3. Use it in the `init` command
 
 **Learning goals:**
+
 - Create packages
 - Work with functions and error handling
 - Use `os/exec` to run commands
@@ -745,11 +777,13 @@ func isGitRepo(path string) bool {
 ### Phase 3: Data Structures
 
 **Your third task:** Define our data models
+
 1. Create `config/types.go`
 2. Define `Repository` and `ShadowFile` structs
 3. Add methods to these structs
 
 **Learning goals:**
+
 - Define structs
 - Create methods
 - Understand pointer receivers
@@ -757,11 +791,13 @@ func isGitRepo(path string) bool {
 ### Phase 4: Database
 
 **Your fourth task:** Set up SQLite database
+
 1. Create `database/db.go`
 2. Implement `InitDB()`, `CreateRepo()`, `GetRepo()`
 3. Write SQL queries
 
 **Learning goals:**
+
 - Work with databases
 - Handle errors properly
 - Use `defer` for cleanup

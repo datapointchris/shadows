@@ -4,7 +4,7 @@ This document describes all commands available in Shadows.
 
 ## Command Overview
 
-```
+```text
 shadows                          # Show help
 shadows init                     # Initialize shadow tracking
 shadows add <file>               # Add file to shadow tracking
@@ -34,6 +34,7 @@ These flags work with all commands:
 Initialize shadow file tracking for the current repository.
 
 **Usage:**
+
 ```bash
 # In your work repository
 cd ~/work/my-project
@@ -41,6 +42,7 @@ shadows init
 ```
 
 **What it does:**
+
 1. Checks if you're in a Git repository
 2. Prompts for repository information (WSL path, Windows path, etc.)
 3. Creates shadow repository at `~/.shadows/repos/<repo-name>/`
@@ -48,18 +50,21 @@ shadows init
 5. Initializes Git repository for shadow files
 
 **Interactive prompts:**
+
 - Repository name (default: directory name)
 - WSL path (auto-detected if in WSL)
 - Windows path (optional)
 - Git remote URL for backup (optional)
 
 **Flags:**
+
 - `--name <name>` - Repository name (skip prompt)
 - `--wsl-path <path>` - WSL path (skip prompt)
 - `--windows-path <path>` - Windows path (skip prompt)
 - `--remote <url>` - Git remote URL (skip prompt)
 
 **Examples:**
+
 ```bash
 # Interactive mode
 shadows init
@@ -80,12 +85,14 @@ shadows init --remote git@github.com:chris/shadows-my-project.git
 Add a file to shadow tracking.
 
 **Usage:**
+
 ```bash
 shadows add tests/test_chris_experiment.py
 shadows add scripts/my_helper.sh
 ```
 
 **What it does:**
+
 1. Validates file exists in work repository
 2. Copies file to shadow repository
 3. Adds file to `.git/info/exclude` (so Git ignores it)
@@ -93,12 +100,15 @@ shadows add scripts/my_helper.sh
 5. Commits to shadow repository (if auto-commit enabled)
 
 **Arguments:**
+
 - `<file>` - Path to file relative to repository root
 
 **Flags:**
+
 - `--no-commit` - Don't auto-commit to shadow repo
 
 **Examples:**
+
 ```bash
 # Add a single file
 shadows add tests/test_my_feature.py
@@ -108,6 +118,7 @@ shadows add tests/test_1.py tests/test_2.py scripts/helper.sh
 ```
 
 **Errors:**
+
 - File doesn't exist
 - File is outside repository
 - File is already a shadow file
@@ -122,12 +133,14 @@ shadows add tests/test_1.py tests/test_2.py scripts/helper.sh
 List all shadow files for the current repository.
 
 **Usage:**
+
 ```bash
 shadows list
 ```
 
 **Output:**
-```
+
+```text
 Shadow files for my-project:
 
   tests/test_chris_experiment.py     shadowed    2 days ago
@@ -138,10 +151,12 @@ Total: 3 files (2 shadowed, 1 promoted)
 ```
 
 **Flags:**
+
 - `--status <status>` - Filter by status (`shadowed`, `promoted`, `deleted`)
 - `--json` - Output as JSON
 
 **Examples:**
+
 ```bash
 # List all files
 shadows list
@@ -165,23 +180,28 @@ shadows list --json
 Remove a file from shadow tracking.
 
 **Usage:**
+
 ```bash
 shadows remove tests/test_old_experiment.py
 ```
 
 **What it does:**
+
 1. Marks file as "deleted" in database
 2. Removes from `.git/info/exclude`
 3. Optionally deletes the file
 
 **Arguments:**
+
 - `<file>` - Path to shadow file
 
 **Flags:**
+
 - `--delete` - Also delete the file from disk
 - `--keep-shadow` - Keep in shadow repo for history
 
 **Examples:**
+
 ```bash
 # Stop tracking but keep file
 shadows remove tests/test_experiment.py
@@ -199,6 +219,7 @@ shadows remove --delete tests/test_old.py
 Sync shadow files between environments.
 
 **Usage:**
+
 ```bash
 # In WSL
 shadows sync    # Syncs changes from WSL to shadow repo
@@ -208,18 +229,21 @@ shadows sync    # Syncs changes from shadow repo to Windows
 ```
 
 **What it does:**
+
 1. Detects which files changed in work repository
 2. Detects which files changed in shadow repository
 3. Syncs changes (copies files and commits)
 4. Handles conflicts (asks user which version to keep)
 
 **Flags:**
+
 - `--dry-run` - Show what would be synced without doing it
 - `--from <location>` - Force sync from location (`wsl`, `windows`)
 - `--to <location>` - Force sync to location
 - `--strategy <strategy>` - Conflict resolution strategy (`ask`, `ours`, `theirs`)
 
 **Examples:**
+
 ```bash
 # Normal sync
 shadows sync
@@ -236,7 +260,8 @@ shadows sync --strategy ours
 
 **Conflict resolution:**
 If a file is modified in both locations:
-```
+
+```text
 Conflict detected: tests/test_experiment.py
 Modified in WSL:     2023-11-03 10:30
 Modified in Windows: 2023-11-03 11:15
@@ -259,12 +284,14 @@ Choose resolution:
 Show sync status for all shadow files.
 
 **Usage:**
+
 ```bash
 shadows status
 ```
 
 **Output:**
-```
+
+```text
 Shadow files status:
 
   Modified in work repo:
@@ -285,6 +312,7 @@ Use 'shadows sync' to synchronize
 ```
 
 **Flags:**
+
 - `--short` - Compact output
 
 **Phase:** 3 (Basic Sync)
@@ -296,23 +324,28 @@ Use 'shadows sync' to synchronize
 Promote a shadow file to the work repository.
 
 **Usage:**
+
 ```bash
 shadows promote tests/test_feature.py
 ```
 
 **What it does:**
+
 1. Removes file from `.git/info/exclude`
 2. Marks as "promoted" in database
 3. File is now tracked by work repo's Git
 4. Optionally keeps in shadow repo for history
 
 **Arguments:**
+
 - `<file>` - Path to shadow file to promote
 
 **Flags:**
+
 - `--remove-shadow` - Also remove from shadow repo
 
 **Examples:**
+
 ```bash
 # Promote file (keep shadow history)
 shadows promote tests/test_feature.py
@@ -334,12 +367,14 @@ git commit -m "Add feature test"
 Show version history of a shadow file.
 
 **Usage:**
+
 ```bash
 shadows log tests/test_experiment.py
 ```
 
 **Output:**
-```
+
+```text
 History for tests/test_experiment.py:
 
   a3f8c2d  2023-11-03 11:30  Update test assertions
@@ -350,6 +385,7 @@ Use 'shadows restore <file> --version <commit>' to restore
 ```
 
 **Flags:**
+
 - `--limit <n>` - Show only last n commits
 - `--oneline` - Compact output
 
@@ -362,17 +398,21 @@ Use 'shadows restore <file> --version <commit>' to restore
 Restore a shadow file to a previous version.
 
 **Usage:**
+
 ```bash
 shadows restore tests/test_experiment.py --version HEAD~1
 ```
 
 **Arguments:**
+
 - `<file>` - Path to shadow file
 
 **Flags:**
+
 - `--version <ref>` - Git ref to restore (commit hash, HEAD~n, etc.)
 
 **Examples:**
+
 ```bash
 # Restore to previous version
 shadows restore tests/test.py --version HEAD~1
@@ -393,15 +433,18 @@ shadows restore tests/test.py --version HEAD@{2.days.ago}
 Push shadow repository to remote backup.
 
 **Usage:**
+
 ```bash
 shadows push
 ```
 
 **What it does:**
+
 1. Pushes shadow repo to configured remote
 2. Backs up all shadow files to Git hosting (GitHub, GitLab, etc.)
 
 **Flags:**
+
 - `--repo <name>` - Push specific repository (default: current)
 
 **Phase:** 6 (Remote Backup)
@@ -413,16 +456,19 @@ shadows push
 Pull shadow repository from remote backup.
 
 **Usage:**
+
 ```bash
 shadows pull
 ```
 
 **What it does:**
+
 1. Pulls latest changes from remote
 2. Updates local shadow repository
 3. Syncs changes to work repository
 
 **Flags:**
+
 - `--repo <name>` - Pull specific repository
 
 **Phase:** 6 (Remote Backup)
