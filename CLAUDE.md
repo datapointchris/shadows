@@ -84,46 +84,15 @@ shadows/
 
 ## Development Workflow
 
-### Code Style Guidelines
+Go conventions, error handling, package layout, and comment policy are fleet standards — see
+`~/dev/standards/go.md` and `~/dev/standards/testing.md`. Nothing about them is specific to
+shadows, and this file must not restate them.
 
-1. **Extensive Comments** - This is a learning project. Every function, struct, and non-obvious line should have explanatory comments.
+Specific to shadows:
 
-2. **Go Conventions**:
-   - Exported names: `LoadConfig()`, `Repository`
-   - Unexported names: `validatePath()`, `shadowFile`
-   - Package names: lowercase, single word
-   - File names: lowercase with underscores (`shadow_file.go`)
-
-3. **Error Handling**:
-
-   ```go
-   // Always check errors immediately
-   result, err := doSomething()
-   if err != nil {
-       return fmt.Errorf("context about what failed: %w", err)
-   }
-   ```
-
-4. **Testing**:
-   - Every package should have tests (`*_test.go`)
-   - Use table-driven tests (Go's idiomatic pattern)
-   - Aim for >70% coverage
-
-### Adding New Features
-
-1. **Check the roadmap** - See `docs/architecture/ROADMAP.md` for planned features
-2. **Update task list** - Use TaskCreate tool to track implementation steps
-3. **Write tests first** - TDD is encouraged
-4. **Document as you go** - Update relevant docs
-5. **Add educational comments** - Help future learners understand
-
-### When Implementing Features
-
-- **Keep it simple** - Go values simplicity over cleverness
-- **Use the standard library** - Before adding dependencies, check if stdlib has it
-- **Return errors, don't panic** - Panics are for truly exceptional situations
-- **Use defer for cleanup** - `defer file.Close()` ensures resources are released
-- **Check docs first** - See `docs/learning/GO_BASICS.md` for Go patterns
+- **Roadmap first** — `docs/architecture/ROADMAP.md` carries the planned features.
+- **Go patterns reference** — `docs/learning/GO_BASICS.md`.
+- Work items are tracked in `icb`, not in this file.
 
 ## Testing
 
