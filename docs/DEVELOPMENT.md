@@ -27,7 +27,7 @@ go version
 
 ```bash
 cd ~/code  # or wherever you keep your projects
-git clone https://github.com/yourusername/shadows.git
+git clone https://github.com/datapointchris/shadows.git
 cd shadows
 ```
 

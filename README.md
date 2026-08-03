@@ -57,7 +57,7 @@ See [docs/architecture/ROADMAP.md](docs/architecture/ROADMAP.md) for full develo
 
 ```bash
 # Clone this repository
-git clone https://github.com/yourusername/shadows.git
+git clone https://github.com/datapointchris/shadows.git
 cd shadows
 
 # Install dependencies

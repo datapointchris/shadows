@@ -28,7 +28,7 @@ package main  // This is an executable
 
 import (
     "fmt"  // Standard library package
-    "github.com/yourusername/shadows/config"  // Our package
+    "github.com/datapointchris/shadows/config"  // Our package
 )
 ```
 
