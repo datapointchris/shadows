@@ -21,7 +21,7 @@ pwd
 go mod tidy
 
 # Try building
-go build -o bin/shadows cmd/shadows/main.go
+go build -o bin/shadows .
 
 # Run it
 ./bin/shadows --help
@@ -37,11 +37,11 @@ Take a moment to explore the codebase:
 # List the main directories
 ls -la
 
-# Key directories:
-# cmd/shadows/     - Entry point (main.go)
-# internal/        - Private packages
-# pkg/             - Public packages
-# docs/            - Documentation
+# Key files and packages:
+# main.go     - Entry point and cobra command tree
+# config/     - Configuration loading and types
+# gitignore/  - Gitignore parsing
+# docs/       - Documentation
 ```
 
 **Start by reading these files in order:**
@@ -59,7 +59,7 @@ Open these files and read through them carefully. They're heavily commented to t
 
 ```bash
 # Open in your editor
-code cmd/shadows/main.go  # or vim, nano, etc.
+code main.go  # or vim, nano, etc.
 ```
 
 Read every line and comment. This shows you:
@@ -72,7 +72,7 @@ Read every line and comment. This shows you:
 ### 2. Look at the data structures
 
 ```bash
-code internal/config/types.go
+code config/types.go
 ```
 
 This teaches you:
@@ -85,7 +85,7 @@ This teaches you:
 ### 3. Check out the config package
 
 ```bash
-code internal/config/config.go
+code config/config.go
 ```
 
 This shows you:
@@ -97,7 +97,7 @@ This shows you:
 ### 4. Examine the gitignore package
 
 ```bash
-code pkg/gitignore/exclude.go
+code gitignore/exclude.go
 ```
 
 This demonstrates:
@@ -128,7 +128,7 @@ Let's implement the basic CLI structure with actual commands!
 3. **Build and test**
 
    ```bash
-   go build -o bin/shadows cmd/shadows/main.go
+   go build -o bin/shadows .
    ./bin/shadows --help
    ```
 
@@ -141,27 +141,27 @@ Now you're ready to start building features! Here's the recommended order:
 ### Phase 1 Tasks (from easiest to hardest)
 
 1. **Database Schema** (Learn: SQL, database design)
-   - Create `internal/database/schema.sql`
+   - Create `database/schema.sql`
    - Define tables for repositories and shadow files
-   - See `internal/config/types.go` for what fields you need
+   - See `config/types.go` for what fields you need
 
 2. **Database Package** (Learn: SQLite, CRUD operations)
-   - Create `internal/database/db.go` - database initialization
-   - Create `internal/database/repository.go` - repository CRUD
-   - Create `internal/database/shadowfile.go` - shadow file CRUD
+   - Create `database/db.go` - database initialization
+   - Create `database/repository.go` - repository CRUD
+   - Create `database/shadowfile.go` - shadow file CRUD
 
 3. **Init Command** (Learn: CLI commands, user input)
-   - Create `cmd/shadows/init.go`
+   - Create `init.go`
    - Implement `shadows init` to set up tracking
    - This is the first command users run!
 
 4. **Add Command** (Learn: File operations, Git)
-   - Create `cmd/shadows/add.go`
+   - Create `add.go`
    - Implement `shadows add <file>`
    - Copy files, update database, modify .git/info/exclude
 
 5. **List Command** (Learn: Queries, formatting output)
-   - Create `cmd/shadows/list.go`
+   - Create `list.go`
    - Implement `shadows list`
    - Query database and display shadow files
 
@@ -194,7 +194,7 @@ For each feature:
 5. **Try it out**
 
    ```bash
-   go build -o bin/shadows cmd/shadows/main.go
+   go build -o bin/shadows .
    ./bin/shadows <your-command>
    ```
 
@@ -225,7 +225,7 @@ go doc os/exec
 go doc fmt.Println
 
 # Run a specific test
-go test -run TestConfigLoad ./internal/config
+go test -run TestConfigLoad ./config
 
 # Run tests with verbose output
 go test -v ./...
@@ -270,26 +270,26 @@ Here's what a typical development session looks like:
 git checkout -b feature/database-schema
 
 # 2. Create the file
-touch internal/database/schema.sql
+touch database/schema.sql
 
 # 3. Write the code (in your editor)
 # ... add SQL schema ...
 
 # 4. Create corresponding Go code
-touch internal/database/db.go
+touch database/db.go
 
 # 5. Write tests
-touch internal/database/db_test.go
+touch database/db_test.go
 
 # 6. Implement and test
-go test ./internal/database
+go test ./database
 
 # 7. Format and check
 go fmt ./...
 go vet ./...
 
 # 8. Build and try it
-go build -o bin/shadows cmd/shadows/main.go
+go build -o bin/shadows .
 
 # 9. Commit
 git add .
@@ -322,8 +322,8 @@ You're all set! Here's your first concrete task:
 
 **Create the database schema**
 
-1. Create `internal/database/schema.sql`
-2. Define tables based on the structs in `internal/config/types.go`
+1. Create `database/schema.sql`
+2. Define tables based on the structs in `config/types.go`
 3. Include comments explaining each table and column
 4. Think about what indices you might need
 
