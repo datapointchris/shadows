@@ -85,7 +85,7 @@ shadows/
 ## Development Workflow
 
 Go conventions, error handling, package layout, and comment policy are fleet standards — see
-`~/dev/standards/go.md` and `~/dev/standards/testing.md`. Nothing about them is specific to
+`standards/go.md` and `standards/testing.md`. Nothing about them is specific to
 shadows, and this file must not restate them.
 
 Specific to shadows:
@@ -119,7 +119,7 @@ go tool cover -html=coverage.out
 1. **Why SQLite?** - Lightweight, no server needed, perfect for CLI tools
 2. **Why Git for storage?** - Free versioning, backup, and conflict resolution
 3. **Why .git/info/exclude?** - Local only, doesn't affect team's .gitignore
-4. **Why top-level packages (not internal/ or pkg/)?** - The fleet rule, with its reasoning, is `~/dev/standards/go.md` § "No `internal/`, no `pkg/`, no `cmd/<binary>/` for a private CLI" — which cites this repo as one of its two worked examples
+4. **Why top-level packages (not internal/ or pkg/)?** - The fleet rule, with its reasoning, is `standards/go.md` § "No `internal/`, no `pkg/`, no `cmd/<binary>/` for a private CLI" — which cites this repo as one of its two worked examples
 5. **Why extensive comments?** - Learning project, helps Go beginners. **This is a deliberate override** of the global zero-comments default in `~/.claude/CLAUDE.md` § Code Comments: here the commentary is the point, because the repo exists to teach Go. Do not apply this to any other repo.
 
 ## Common Tasks
