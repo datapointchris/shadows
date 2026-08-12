@@ -8,7 +8,7 @@ Shadows is a CLI tool for managing personal development files that live in work 
 
 **Current Status:** Phase 1 - MVP (Just starting)
 
-**Language:** Go 1.23.2
+**Language:** Go — the floor is `go.mod`, and `standards/go.md` § "Go version floor" is why
 
 **Learning Project:** This is being built while learning Go, so all code should be extensively documented with educational comments.
 
@@ -25,7 +25,7 @@ go build -o bin/shadows .
 go run . [command]
 
 # Format code (ALWAYS run before committing!)
-go fmt ./...
+gofumpt -w .
 
 # Check for issues
 go vet ./...
@@ -164,21 +164,10 @@ go tool cover -html=coverage.out
 - **Development Guide**: `docs/DEVELOPMENT.md`
 - **Command Reference**: `docs/api/COMMANDS.md`
 
-## Current Phase: Phase 1 - MVP
+## Where the work is tracked
 
-**Focus:** Basic shadow file tracking without sync or Git integration
-
-**Tasks:**
-
-- [ ] Basic CLI structure with Cobra
-- [ ] Database setup and schema
-- [ ] `shadows init` command
-- [ ] `shadows add <file>` command
-- [ ] `shadows list` command
-- [ ] Configuration management
-- [ ] .git/info/exclude management
-
-**Next:** See `docs/architecture/ROADMAP.md` for upcoming phases
+Phase 1 is unstarted and its checklist is `icb` item 456. `docs/architecture/ROADMAP.md` carries
+the later phases as design, not as a task list.
 
 ## Notes for Claude Code
 
@@ -187,6 +176,6 @@ go tool cover -html=coverage.out
 - User is new to Go - explain Go concepts in comments
 - Follow Go conventions and idioms
 - Use standard library when possible
-- Always run `go fmt ./...` before suggesting code is complete
+- Always run `gofumpt -w .` before suggesting code is complete — the pre-commit hook is `go-fumpt-repo`, so `go fmt` leaves a tree the repo rejects (`standards/go.md` § "Formatting is gofumpt, not gofmt")
 - Suggest tests for new functionality
 - Reference documentation files when explaining concepts
