@@ -14,35 +14,12 @@ Shadows is a CLI tool for managing personal development files that live in work 
 
 ## Quick Commands
 
-```bash
-# Install dependencies
-go mod tidy
+Stock Go — `go build -o bin/shadows .`, `go run . [command]`, `go test ./...`, and the usual
+`GOOS`/`GOARCH` pair for a cross build. Nothing here takes a repo-specific flag, so `standards/go.md`
+covers it and this file does not restate it.
 
-# Build the binary
-go build -o bin/shadows .
-
-# Run without building
-go run . [command]
-
-# Format code (ALWAYS run before committing!)
-gofumpt -w .
-
-# Check for issues
-go vet ./...
-
-# Run all tests
-go test ./...
-
-# Run tests with coverage
-go test -cover ./...
-
-# Run specific package tests
-go test ./config
-
-# Build for different platforms
-GOOS=windows GOARCH=amd64 go build -o bin/shadows.exe .
-GOOS=linux GOARCH=amd64 go build -o bin/shadows .
-```
+The one thing worth knowing: the pre-commit hook is `go-fumpt-repo`, which **reports** a diff
+rather than applying it, so a failing commit needs `gofumpt -w .` by hand before it passes.
 
 ## Project Structure
 
@@ -96,23 +73,8 @@ Specific to shadows:
 
 ## Testing
 
-```bash
-# Run all tests
-go test ./...
-
-# Run with verbose output
-go test -v ./...
-
-# Run specific test
-go test -run TestLoadConfig ./config
-
-# Check test coverage
-go test -cover ./...
-
-# Generate HTML coverage report
-go test -coverprofile=coverage.out ./...
-go tool cover -html=coverage.out
-```
+Stock `go test`, including `-run`, `-cover` and the `-coverprofile` / `go tool cover -html` pair.
+What to test at which layer is `standards/testing.md`.
 
 ## Key Design Decisions
 
@@ -150,11 +112,11 @@ go tool cover -html=coverage.out
 
 ## Important Notes
 
-- **Never ignore errors** - Always check and handle error returns
-- **Use filepath.Join()** - Never manually concatenate paths with "/" or "\\"
-- **Cross-platform** - Code should work on Windows, Mac, and Linux
-- **Educational focus** - When in doubt, add more comments
-- **Incremental development** - Each phase should be functional on its own
+- **Cross-platform** — this one targets Windows as well as Mac and Linux, which most of the fleet does not, so `filepath.Join()` and never a hand-concatenated `"/"` is load-bearing here rather than stylistic
+- **Educational focus** — when in doubt, add more comments. This is a deliberate override of the fleet zero-comments default; teaching Go is the point of the repo
+- **Incremental development** — each phase should be functional on its own
+
+`errcheck` already enforces error handling, so it is not restated here.
 
 ## Resources
 
@@ -176,6 +138,5 @@ the later phases as design, not as a task list.
 - User is new to Go - explain Go concepts in comments
 - Follow Go conventions and idioms
 - Use standard library when possible
-- Always run `gofumpt -w .` before suggesting code is complete — the pre-commit hook is `go-fumpt-repo`, so `go fmt` leaves a tree the repo rejects (`standards/go.md` § "Formatting is gofumpt, not gofmt")
 - Suggest tests for new functionality
 - Reference documentation files when explaining concepts
