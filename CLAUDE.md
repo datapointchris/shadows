@@ -69,7 +69,7 @@ Specific to shadows:
 
 - **Roadmap first** — `docs/architecture/ROADMAP.md` carries the planned features.
 - **Go patterns reference** — `docs/learning/GO_BASICS.md`.
-- Work items are tracked in `icb`, not in this file.
+- Work items are tracked outside the repo, not in this file.
 
 ## Testing
 
@@ -128,8 +128,8 @@ What to test at which layer is `standards/testing.md`.
 
 ## Where the work is tracked
 
-Phase 1 is unstarted and its checklist is `icb` item 456. `docs/architecture/ROADMAP.md` carries
-the later phases as design, not as a task list.
+Phase 1 is unstarted and its checklist is tracked outside the repo.
+`docs/architecture/ROADMAP.md` carries the later phases as design, not as a task list.
 
 ## Notes for Claude Code
 
