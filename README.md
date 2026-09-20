@@ -104,6 +104,7 @@ This project includes extensive documentation for both the project and learning 
 
 ### For Developers & Learners
 
+- [Getting Started](GETTING_STARTED.md) - Set up the toolchain and make your first change
 - [Go Learning Path](docs/learning/GO_BASICS.md) - Learn Go while building this project
 - [Project Structure](docs/architecture/PROJECT_STRUCTURE.md) - How the codebase is organized
 - [Development Guide](docs/DEVELOPMENT.md) - How to contribute and develop
