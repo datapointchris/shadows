@@ -4,12 +4,9 @@ Shadows is a CLI tool for managing personal development files that live in work 
 
 **Language:** Go — the floor is `go.mod`, and `standards/go.md` § "Go version floor" is why
 
-## A commit gofumpt fails passes once its rewrites are staged
+## Build and test
 
 Build, run and test are stock Go, and nothing here takes a repo-specific flag.
-
-The pre-commit hook runs gofumpt at the release CI installs, and it rewrites files in place. Stage
-what it rewrote and commit again.
 
 ## Architecture Overview
 
