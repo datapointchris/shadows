@@ -34,7 +34,7 @@ Specific to shadows:
 1. **Why SQLite?** - Lightweight, no server needed, perfect for CLI tools
 2. **Why Git for storage?** - Free versioning, backup, and conflict resolution
 3. **Why .git/info/exclude?** - Local only, doesn't affect team's .gitignore
-4. **Why top-level packages (not internal/ or pkg/)?** - The fleet rule, with its reasoning, is `standards/go.md` § "No `internal/`, no `pkg/`, no `cmd/<binary>/` for a private CLI" — which cites this repo as one of its two worked examples
+4. **Why top-level packages (not internal/ or pkg/)?** - No other module imports these packages, so `internal/` would protect nothing, and `pkg/` does not make code more importable
 5. **Why extensive comments?** - Learning project, helps Go beginners. **This is a deliberate override** of the default that a comment is earned only by why the code exists or by what will bite the next person to touch it. Here the commentary is the point, because the repo exists to teach Go, so when in doubt, add more. A comment still explains the code as it is, never the change that produced it. Do not apply this to any other repo.
 
 ## Shadows targets Windows as well as Mac and Linux
