@@ -91,8 +91,10 @@ func EnsureShadowsDir() error {
 // If the path is empty, it uses the default config path.
 // If the config file doesn't exist, it returns a default config.
 //
-// TODO: Implement TOML parsing when we need persistent configuration.
-// For now, we'll just return defaults.
+// If the file does exist, LoadConfig returns an error naming it. TOML parsing
+// is not written yet, and returning defaults here would run with values that
+// differ from what the user wrote, with nothing saying so. An error is the
+// honest answer until the parser exists.
 func LoadConfig(path string) (*Config, error) {
 	// If no path specified, use default
 	if path == "" {
@@ -115,9 +117,9 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, fmt.Errorf("failed to check config file: %w", err)
 	}
 
-	// TODO: Parse TOML file and populate Config struct
-	// For Phase 1 MVP, we'll just use defaults
-	return createDefaultConfig()
+	// The file exists, but nothing can read it yet.
+	// %q quotes the path, so a path with spaces still reads as one value.
+	return nil, fmt.Errorf("config file %q exists, but reading config files is not implemented yet; remove it to run on the built-in defaults", path)
 }
 
 // createDefaultConfig creates a Config with all default values populated.
