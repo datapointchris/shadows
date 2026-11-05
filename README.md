@@ -49,7 +49,7 @@ See [docs/architecture/ROADMAP.md](docs/architecture/ROADMAP.md) for full develo
 
 ### Prerequisites
 
-- Go 1.21 or higher
+- Go at the version on the `go` line of [go.mod](go.mod) or newer
 - Git installed and configured
 - (Optional) A work repository you want to add shadow files to
 

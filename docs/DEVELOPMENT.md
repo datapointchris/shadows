@@ -6,7 +6,7 @@ This guide will help you set up your development environment and start building 
 
 ### Required
 
-- **Go 1.21 or higher** - [Install Go](https://golang.org/doc/install)
+- **Go** at the version on the `go` line of [go.mod](../go.mod) or newer - [Install Go](https://golang.org/doc/install)
 - **Git** - Should already be installed on most systems
 
 ### Recommended
@@ -20,7 +20,7 @@ This guide will help you set up your development environment and start building 
 
 ```bash
 go version
-# Should output: go version go1.21.0 or higher
+# Should print a version at or above the `go` line in go.mod
 ```
 
 ### 2. Clone the Repository

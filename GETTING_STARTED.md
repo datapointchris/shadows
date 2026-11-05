@@ -6,7 +6,7 @@ Welcome! This guide will help you get started building Shadows while learning Go
 
 Make sure you have:
 
-- ✅ Go 1.21+ installed (`go version` to check)
+- ✅ Go installed at the version on the `go` line of [go.mod](go.mod) or newer (`go version` to check)
 - ✅ Git installed
 - ✅ A text editor (VS Code recommended)
 
