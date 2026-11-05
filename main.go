@@ -6,10 +6,23 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"os"
 
+	"github.com/datapointchris/goclikit"
+	"github.com/datapointchris/goselfupdate/autoupdate"
 	"github.com/spf13/cobra"
+)
+
+// Exit codes, so a script can tell a mistyped command line from a command
+// that ran and failed. Only the first is worth retrying with different
+// arguments. 2 for a usage error is the shell convention, and what Python's
+// argparse uses too.
+const (
+	exitFailure    = 1
+	exitUsageError = 2
 )
 
 // rootCmd is the base command when called without any subcommands.
@@ -23,6 +36,12 @@ import (
 var rootCmd = &cobra.Command{
 	// Use defines the command syntax. This is what users type.
 	Use: "shadows",
+
+	// SilenceErrors and SilenceUsage stop cobra printing an error and the
+	// usage block itself. main() prints the error once, and without these the
+	// user would see it twice.
+	SilenceErrors: true,
+	SilenceUsage:  true,
 
 	// Short is a brief description shown in help output.
 	Short: "Manage personal development files across environments",
@@ -60,12 +79,20 @@ Example workflow:
 //
 // This is the standard pattern in Cobra applications:
 // 1. main() calls Execute()
-// 2. Execute() calls rootCmd.Execute()
+// 2. Execute() hands rootCmd to goclikit.Execute, which runs cobra
 // 3. Cobra handles parsing command-line args and calling the right command
+//
+// Cobra returns a mistyped flag, an unknown command and a refused argument as
+// ordinary errors, the same kind a failed command returns. goclikit.Execute
+// marks those three with goclikit.ErrUsage, so main() can tell them apart.
+//
+// The empty autoupdate.Config means no update check ever runs: shadows
+// publishes no releases, and a config with no release version never reaches
+// the network.
 //
 // We return the error so main() can decide how to handle it.
 func Execute() error {
-	return rootCmd.Execute()
+	return goclikit.Execute(context.Background(), rootCmd, autoupdate.Config{})
 }
 
 // init() is a special Go function that runs automatically before main().
@@ -103,13 +130,22 @@ func init() {
 func main() {
 	// Execute the root command and check for errors
 	if err := Execute(); err != nil {
-		// If there's an error, print it to stderr and exit with code 1
-		// fmt.Fprintln prints to a file/stream (in this case, os.Stderr)
-		fmt.Fprintln(os.Stderr, err)
+		// errors.Is walks the chain of wrapped errors looking for a match.
+		// goclikit marks an error ErrReported when it has already printed
+		// what the user needs, such as a command's help, so we print nothing
+		// more for it.
+		if !errors.Is(err, goclikit.ErrReported) {
+			// fmt.Fprintln prints to a file/stream (in this case, os.Stderr)
+			fmt.Fprintln(os.Stderr, "error:", err)
+		}
 
-		// Exit with a non-zero code to indicate failure
-		// 0 = success, non-zero = failure (convention in Unix-like systems)
-		os.Exit(1)
+		// 0 = success, non-zero = failure (convention in Unix-like systems).
+		// A usage error gets its own code, so a caller knows to fix the
+		// command line rather than retry it.
+		if errors.Is(err, goclikit.ErrUsage) {
+			os.Exit(exitUsageError)
+		}
+		os.Exit(exitFailure)
 	}
 
 	// If we get here, the command succeeded
