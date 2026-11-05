@@ -19,6 +19,20 @@ gives every file version history. `shadows sync` moves changes between environme
 `shadows promote <path>` hands a file to the work repo once it is ready. A SQLite database
 records which files are shadowed and where each repository lives.
 
+## Every external effect has one door
+
+Anything that leaves the process goes through one named function, and every caller uses it.
+That function is where a timeout, a retry or a test stub attaches, once.
+
+- **`.git/info/exclude` in a work repo** is written only by package `gitignore`:
+  `AddToExclude` creates `.git/info` if missing and appends, and `RemoveFromExclude` rewrites
+  the file through `writeLines`.
+- **The shadows data directory** is created only by `config.EnsureShadowsDir`.
+
+The code runs no subprocess, makes no network call and opens no database yet. When the
+`git` shell-outs and the SQLite store arrive, each gets one wrapper of its own, named here
+beside the two above. No other package calls `exec.Command` or opens the database directly.
+
 ## Development Workflow
 
 Go conventions, error handling, package layout, and comment policy are fleet standards — see
