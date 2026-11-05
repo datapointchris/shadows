@@ -1,0 +1,52 @@
+version: '3'
+
+vars:
+  INSTALL_DIR: '{{.HOME}}/.local/bin'
+
+tasks:
+  default:
+    desc: Show available tasks
+    silent: true
+    cmds:
+      - task --list
+
+  # A fresh clone carries no module cache, so this downloads what go.mod needs.
+  setup:
+    desc: Download the Go module dependencies
+    cmds:
+      - go mod download
+
+  build:
+    desc: Build the CLI to bin/shadows
+    cmds:
+      - go build -o bin/shadows .
+
+  install:
+    desc: Build the CLI into ~/.local/bin
+    cmds:
+      - mkdir -p {{.INSTALL_DIR}}
+      - go build -o {{.INSTALL_DIR}}/shadows .
+      - 'echo "installed shadows -> {{.INSTALL_DIR}}/shadows"'
+
+  test:
+    desc: Run the test suite
+    cmds:
+      - go test ./...
+
+  # gofumpt is the formatter the commit hooks hold the code to, and -l exits 0
+  # whatever it lists, so the listing itself is the verdict.
+  lint:
+    desc: Check formatting, then vet and lint without writing a file
+    cmds:
+      - |
+        unformatted=$(gofumpt -l .)
+        if [ -n "$unformatted" ]; then
+          echo "gofumpt needed on:"; echo "$unformatted"; exit 1
+        fi
+      - go vet ./...
+      - golangci-lint run
+
+  format:
+    desc: Format the code with gofumpt
+    cmds:
+      - gofumpt -w .

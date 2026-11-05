@@ -6,7 +6,9 @@ Shadows is a CLI tool for managing personal development files that live in work 
 
 ## Build and test
 
-Build, run and test are stock Go, and nothing here takes a repo-specific flag.
+`Taskfile.yml` holds the commands: `task build`, `task test`, `task lint` and `task format`, with
+`task` alone listing the rest. Each is stock Go underneath, and nothing here takes a
+repo-specific flag.
 
 ## Architecture Overview
 
