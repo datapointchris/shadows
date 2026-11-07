@@ -17,6 +17,7 @@ shadows log <file>               # Show file history
 shadows restore <file>           # Restore previous version
 shadows push                     # Push to remote
 shadows pull                     # Pull from remote
+shadows config path              # Print the config file's path
 ```
 
 ## Global Flags
@@ -24,7 +25,7 @@ shadows pull                     # Pull from remote
 These flags work with all commands:
 
 - `--verbose, -v` - Verbose output (shows detailed information)
-- `--config, -c <path>` - Use custom config file (default: `$XDG_CONFIG_HOME/shadows/config.toml`)
+- `--config, -c <path>` - Use custom config file (`shadows config path` prints the one in use)
 - `--help, -h` - Show help for any command
 
 ## Commands
@@ -472,6 +473,23 @@ shadows pull
 - `--repo <name>` - Pull specific repository
 
 **Phase:** 6 (Remote Backup)
+
+---
+
+### `shadows config path`
+
+Print the path of the config file Shadows reads.
+
+**Usage:**
+
+```bash
+shadows config path
+```
+
+**What it does:**
+
+Prints the `--config` value when one is given. Otherwise it prints the default, `config.toml` in
+the Shadows directory under `$XDG_CONFIG_HOME`, or under `~/.config` when that is unset.
 
 ---
 

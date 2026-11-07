@@ -113,8 +113,10 @@ func init() {
 	// "verbose output" is the help text
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
 
-	// Add a --config flag to specify a custom config file location
-	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $XDG_CONFIG_HOME/shadows/config.toml)")
+	// Add a --config flag to specify a custom config file location.
+	// The help names the command that prints the default rather than the
+	// path itself, because the path differs from one machine to the next.
+	rootCmd.PersistentFlags().StringP("config", "c", "", "config file to read; 'shadows config path' prints the one in use")
 
 	// TODO: Add subcommands here as we implement them
 	// Example:
