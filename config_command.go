@@ -18,9 +18,9 @@ var configCmd = &cobra.Command{
 
 // configPathCmd prints the path of the config file Shadows reads.
 //
-// Help text points here rather than writing the path out, because the path
-// depends on XDG_CONFIG_HOME and the home directory of whoever runs it. A
-// command works it out on the machine that asks, so its answer is always
+// It exists so the path is never written into help text or docs, because the
+// path depends on XDG_CONFIG_HOME and the home directory of whoever runs it.
+// A command works it out on the machine that asks, so its answer is always
 // current there.
 var configPathCmd = &cobra.Command{
 	Use:   "path",
@@ -41,8 +41,8 @@ var configPathCmd = &cobra.Command{
 // configFilePath returns the config file a command reads: the --config
 // value when one was given, and the default path otherwise.
 //
-// --config is a persistent flag on the root command, so every subcommand
-// inherits it and can read it through its own cmd.Flags().
+// Only a command that declares --config can call it. On any other command
+// cmd.Flags().GetString returns an error, because the flag does not exist.
 func configFilePath(cmd *cobra.Command) (string, error) {
 	path, err := cmd.Flags().GetString("config")
 	if err != nil {
@@ -55,6 +55,11 @@ func configFilePath(cmd *cobra.Command) (string, error) {
 }
 
 func init() {
+	// --config is declared here, on the one command that reads it, rather
+	// than on rootCmd, where every command would inherit and advertise it.
+	// Flags() holds the flags local to this command alone.
+	configPathCmd.Flags().StringP("config", "c", "", "config file to read in place of the default")
+
 	configCmd.AddCommand(configPathCmd)
 	rootCmd.AddCommand(configCmd)
 }

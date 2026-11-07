@@ -23,8 +23,8 @@ func TestConfigPathHonorsConfigFlag(t *testing.T) {
 	t.Cleanup(func() {
 		rootCmd.SetArgs(nil)
 		rootCmd.SetOut(nil)
-		// Flag values live on the shared rootCmd, so reset it for later tests.
-		_ = rootCmd.PersistentFlags().Set("config", "")
+		// Flag values live on the shared command, so reset it for later tests.
+		_ = configPathCmd.Flags().Set("config", "")
 	})
 
 	if err := Execute(); err != nil {

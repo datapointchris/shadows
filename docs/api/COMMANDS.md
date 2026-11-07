@@ -22,11 +22,9 @@ shadows config path              # Print the config file's path
 
 ## Global Flags
 
-These flags work with all commands:
-
-- `--verbose, -v` - Verbose output (shows detailed information)
-- `--config, -c <path>` - Use custom config file (`shadows config path` prints the one in use)
 - `--help, -h` - Show help for any command
+
+Every other flag belongs to the command that reads it, and is listed under that command.
 
 ## Commands
 
@@ -485,6 +483,10 @@ Print the path of the config file Shadows reads.
 ```bash
 shadows config path
 ```
+
+**Flags:**
+
+- `--config, -c <path>` - Config file to read in place of the default
 
 **What it does:**
 

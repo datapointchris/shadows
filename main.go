@@ -102,21 +102,13 @@ func Execute() error {
 //
 // Here we use it to set up our command-line flags and subcommands.
 func init() {
-	// Cobra allows you to add persistent flags that are available to all commands.
-	// These flags can appear anywhere on the command line.
-
-	// Add a --verbose flag that's available to all commands
-	// &verbose is a pointer to a bool variable that will store the flag value
-	// "verbose" is the long flag name (--verbose)
-	// "v" is the short flag name (-v)
-	// false is the default value
-	// "verbose output" is the help text
-	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
-
-	// Add a --config flag to specify a custom config file location.
-	// The help names the command that prints the default rather than the
-	// path itself, because the path differs from one machine to the next.
-	rootCmd.PersistentFlags().StringP("config", "c", "", "config file to read; 'shadows config path' prints the one in use")
+	// Cobra can attach a "persistent" flag to rootCmd, which every subcommand
+	// then inherits and lists under "Global Flags" in its help. The root
+	// declares none, because a flag belongs only on the commands that read
+	// it. Help that advertises a flag a command ignores looks the same as
+	// help for one that works, so a user cannot tell them apart. Each
+	// command declares its own flags beside its definition instead, as
+	// configPathCmd does with --config.
 
 	// TODO: Add subcommands here as we implement them
 	// Example:

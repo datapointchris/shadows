@@ -143,7 +143,6 @@ type Config struct {
 	AutoSyncOnInit bool `json:"auto_sync_on_init" toml:"auto_sync_on_init"`
 
 	// Verbose controls default verbosity of output.
-	// Can be overridden with --verbose flag.
 	Verbose bool `json:"verbose" toml:"verbose"`
 }
 
