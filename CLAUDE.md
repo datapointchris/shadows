@@ -2,7 +2,7 @@
 
 Shadows is a CLI tool for managing personal development files that live in work repositories but shouldn't be committed. It's designed for developers working across multiple environments (WSL/Windows, multiple machines) who need to keep personal scripts, tests, and experiments in sync.
 
-**Language:** Go — the floor is `go.mod`, and `standards/go.md` § "Go version floor" is why
+**Language:** Go — the minimum version is the `go` line in `go.mod`, and no other file restates it
 
 ## Build and test
 
@@ -36,9 +36,10 @@ beside the two above. No other package calls `exec.Command` or opens the databas
 
 ## Development Workflow
 
-Go conventions, error handling, package layout, and comment policy are fleet standards — see
-`standards/go.md` and `standards/testing.md`. Nothing about them is specific to
-shadows, and this file must not restate them.
+Go conventions, error handling, package layout and testing follow ordinary Go practice:
+`gofmt`, wrapped errors with `%w`, and table-driven tests where cases share a shape. Nothing
+about them is specific to shadows, so this file does not restate them. The comment policy is
+the one exception, set out under Key Design Decisions.
 
 Specific to shadows:
 
@@ -56,5 +57,5 @@ Specific to shadows:
 
 ## Shadows targets Windows as well as Mac and Linux
 
-Most of the fleet does not, so `filepath.Join()` and never a hand-concatenated `"/"` is
-load-bearing here rather than stylistic. Each development phase should be functional on its own.
+A tool that runs only on Unix-like systems can get away with a hand-concatenated `"/"`.
+Shadows cannot, so `filepath.Join()` is load-bearing here rather than stylistic. Each development phase should be functional on its own.
