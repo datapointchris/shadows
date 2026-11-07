@@ -24,7 +24,7 @@ shadows pull                     # Pull from remote
 These flags work with all commands:
 
 - `--verbose, -v` - Verbose output (shows detailed information)
-- `--config, -c <path>` - Use custom config file (default: `~/.shadows/config.toml`)
+- `--config, -c <path>` - Use custom config file (default: `$XDG_CONFIG_HOME/shadows/config.toml`)
 - `--help, -h` - Show help for any command
 
 ## Commands
@@ -45,7 +45,7 @@ shadows init
 
 1. Checks if you're in a Git repository
 2. Prompts for repository information (WSL path, Windows path, etc.)
-3. Creates shadow repository at `~/.shadows/repos/<repo-name>/`
+3. Creates shadow repository at `repos/<repo-name>/` in the data directory (`$XDG_DATA_HOME/shadows`, fallback `~/.local/share/shadows`)
 4. Adds entry to Shadows database
 5. Initializes Git repository for shadow files
 
@@ -539,4 +539,4 @@ shadows pull
 - Shadow files are never committed to the work repository
 - Use `.git/info/exclude` to ignore files locally (not `.gitignore`)
 - Shadow repositories use Git for versioning (you get full history)
-- You can manually work with shadow repos at `~/.shadows/repos/<repo-name>/`
+- You can manually work with shadow repos at `repos/<repo-name>/` in the data directory

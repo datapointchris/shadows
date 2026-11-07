@@ -46,7 +46,7 @@ type Repository struct {
 	WindowsPath string `json:"windows_path" toml:"windows_path" db:"windows_path"`
 
 	// ShadowRepoPath is where shadow files are stored.
-	// Example: "/home/chris/.shadows/repos/my-project"
+	// Example: "/home/chris/.local/share/shadows/repos/my-project"
 	// This directory is a Git repository that mirrors the work repo structure.
 	ShadowRepoPath string `json:"shadow_repo_path" toml:"shadow_repo_path" db:"shadow_repo_path"`
 
@@ -115,15 +115,16 @@ type ShadowFile struct {
 
 // Config represents the global Shadows configuration.
 //
-// This is loaded from ~/.shadows/config.toml and contains settings
-// that apply across all repositories.
+// This is loaded from config.toml in the config directory, which
+// GetDefaultConfigDir resolves, and contains settings that apply across
+// all repositories.
 type Config struct {
 	// ShadowsDir is the root directory for all shadow data.
-	// Default: ~/.shadows
+	// Default: $XDG_DATA_HOME/shadows, or ~/.local/share/shadows
 	ShadowsDir string `json:"shadows_dir" toml:"shadows_dir"`
 
 	// DatabasePath is the path to the SQLite database.
-	// Default: ~/.shadows/shadows.db
+	// Default: shadows.db inside ShadowsDir
 	DatabasePath string `json:"database_path" toml:"database_path"`
 
 	// DefaultRemoteBase is a template for generating remote URLs.
@@ -189,8 +190,8 @@ func DefaultConfig() *Config {
 	return &Config{
 		// We'll set these properly when we implement config loading
 		// For now, these are placeholders
-		ShadowsDir:        "", // Will be set to ~/.shadows
-		DatabasePath:      "", // Will be set to ~/.shadows/shadows.db
+		ShadowsDir:        "", // Set by createDefaultConfig from GetDefaultShadowsDir
+		DatabasePath:      "", // Set by createDefaultConfig from GetDefaultDatabasePath
 		DefaultRemoteBase: "",
 		AutoCommit:        true,  // Default to auto-committing
 		AutoSyncOnInit:    false, // Default to not auto-syncing

@@ -7,14 +7,29 @@ import (
 	"path/filepath"
 )
 
-// GetDefaultShadowsDir returns the default directory for Shadows data.
+// appName is the directory Shadows owns inside each XDG base directory.
+const appName = "shadows"
+
+// xdgDir resolves one XDG base directory and returns the Shadows directory
+// inside it.
 //
-// By convention, CLI tools store user data in the home directory:
-// - Linux/Mac: ~/.shadows
-// - Windows: C:\Users\username\.shadows
+// The XDG Base Directory specification splits what a tool keeps by kind:
+//   - $XDG_CONFIG_HOME (default ~/.config) holds settings a person edits
+//   - $XDG_DATA_HOME (default ~/.local/share) holds the data a tool owns,
+//     such as its database
 //
-// os.UserHomeDir() is a cross-platform way to get the user's home directory.
-func GetDefaultShadowsDir() (string, error) {
+// envVar names the variable to read, and fallback is the path under the
+// home directory to use when it is unset. The specification says a relative
+// value is invalid and must be ignored, so only an absolute one is used.
+//
+// fallback is variadic (...string) so each path segment is passed on its
+// own and joined with the OS separator, never written with a "/".
+func xdgDir(envVar string, fallback ...string) (string, error) {
+	// os.Getenv returns "" for a variable that is not set.
+	if base := os.Getenv(envVar); base != "" && filepath.IsAbs(base) {
+		return filepath.Join(base, appName), nil
+	}
+
 	// Get the user's home directory
 	// Example: "/home/chris" on Linux, "C:\Users\chris" on Windows
 	home, err := os.UserHomeDir()
@@ -31,9 +46,29 @@ func GetDefaultShadowsDir() (string, error) {
 	//
 	// Never manually concatenate paths with "/" or "\"!
 	// Always use filepath.Join for cross-platform compatibility.
-	shadowsDir := filepath.Join(home, ".shadows")
+	//
+	// append builds one slice of every segment, and the trailing ... spreads
+	// it back into separate arguments for filepath.Join.
+	parts := append([]string{home}, fallback...)
+	parts = append(parts, appName)
+	return filepath.Join(parts...), nil
+}
 
-	return shadowsDir, nil
+// GetDefaultConfigDir returns the directory holding the config file:
+// $XDG_CONFIG_HOME/shadows, or ~/.config/shadows when the variable is unset.
+func GetDefaultConfigDir() (string, error) {
+	return xdgDir("XDG_CONFIG_HOME", ".config")
+}
+
+// GetDefaultShadowsDir returns the directory for Shadows data, the database
+// and the shadow repositories: $XDG_DATA_HOME/shadows, or
+// ~/.local/share/shadows when the variable is unset.
+//
+// Data and config live apart because they are different kinds of file. A
+// person edits the config, while Shadows alone writes the database and the
+// shadow repositories.
+func GetDefaultShadowsDir() (string, error) {
+	return xdgDir("XDG_DATA_HOME", ".local", "share")
 }
 
 // GetDefaultDatabasePath returns the default path to the SQLite database.
@@ -49,12 +84,12 @@ func GetDefaultDatabasePath() (string, error) {
 
 // GetDefaultConfigPath returns the default path to the config file.
 func GetDefaultConfigPath() (string, error) {
-	shadowsDir, err := GetDefaultShadowsDir()
+	configDir, err := GetDefaultConfigDir()
 	if err != nil {
 		return "", err
 	}
 
-	configPath := filepath.Join(shadowsDir, "config.toml")
+	configPath := filepath.Join(configDir, "config.toml")
 	return configPath, nil
 }
 

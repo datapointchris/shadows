@@ -32,9 +32,15 @@ Shadows manages "shadow files" - files that exist in your work repository but ar
                               │ Shadows tracks these files
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
-│              Shadows Storage (~/.shadows/)                  │
+│      Shadows Config ($XDG_CONFIG_HOME/shadows/)             │
+│      fallback ~/.config/shadows/                            │
 │                                                             │
-│  ├── config.toml              (global configuration)        │
+│  └── config.toml              (global configuration)        │
+└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│      Shadows Data ($XDG_DATA_HOME/shadows/)                 │
+│      fallback ~/.local/share/shadows/                       │
+│                                                             │
 │  ├── shadows.db               (SQLite database)             │
 │  └── repos/                                                 │
 │      └── my-project/          (Git repository!)             │
@@ -54,7 +60,7 @@ Shadows manages "shadow files" - files that exist in your work repository but ar
 1. User runs: shadows add tests/test_chris_exp.py
                     │
                     ▼
-2. Shadows copies file to ~/.shadows/repos/my-project/tests/
+2. Shadows copies file to <data dir>/repos/my-project/tests/
                     │
                     ▼
 3. Shadows adds entry to .git/info/exclude
@@ -79,7 +85,7 @@ User runs: shadows sync
 1. Shadows detects changes (compares with shadow repo)
                     │
                     ▼
-2. Shadows copies to ~/.shadows/repos/my-project/
+2. Shadows copies to <data dir>/repos/my-project/
                     │
                     ▼
 3. Shadows commits to shadow repo

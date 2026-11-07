@@ -6,5 +6,5 @@ feature.
 
 ## Documentation
 
-- [Architecture Overview](OVERVIEW.md) — Storage layout under `~/.shadows/`, the data flow through add, sync and promote, the package-by-package breakdown, and the decisions behind SQLite and `.git/info/exclude`
+- [Architecture Overview](OVERVIEW.md) — Storage layout across the XDG config and data directories, the data flow through add, sync and promote, the package-by-package breakdown, and the decisions behind SQLite and `.git/info/exclude`
 - [Development Roadmap](ROADMAP.md) — The eight phases from MVP to TUI, the feature checklist inside each, the backlog, and where the work currently stands

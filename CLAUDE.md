@@ -13,7 +13,8 @@ repo-specific flag.
 ## Architecture Overview
 
 A shadow file lives naturally in a work repository but is tracked separately. `shadows add
-<path>` copies it into shadow storage at `~/.shadows/repos/<repo>/<path>` and adds it to
+<path>` copies it into shadow storage at `repos/<repo>/<path>` under the data directory,
+`$XDG_DATA_HOME/shadows` (fallback `~/.local/share/shadows`), and adds it to
 `.git/info/exclude`, so the work repo never sees it. Shadow storage is a Git repository, which
 gives every file version history. `shadows sync` moves changes between environments, and
 `shadows promote <path>` hands a file to the work repo once it is ready. A SQLite database

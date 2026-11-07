@@ -114,7 +114,7 @@ func init() {
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose output")
 
 	// Add a --config flag to specify a custom config file location
-	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $HOME/.shadows/config.toml)")
+	rootCmd.PersistentFlags().StringP("config", "c", "", "config file (default is $XDG_CONFIG_HOME/shadows/config.toml)")
 
 	// TODO: Add subcommands here as we implement them
 	// Example:
