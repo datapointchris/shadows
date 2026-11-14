@@ -13,6 +13,7 @@ import (
 
 	"github.com/datapointchris/goclikit"
 	"github.com/datapointchris/goselfupdate/autoupdate"
+	"github.com/datapointchris/gotermstyle/cobrahelp"
 	"github.com/spf13/cobra"
 )
 
@@ -92,6 +93,7 @@ Example workflow:
 //
 // We return the error so main() can decide how to handle it.
 func Execute() error {
+	cobrahelp.Install(rootCmd)
 	return goclikit.Execute(context.Background(), rootCmd, autoupdate.Config{})
 }
 

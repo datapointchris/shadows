@@ -3,6 +3,8 @@ github.com/datapointchris/goclikit v0.5.2 h1:jyQZlHVSjFLjpggevelPsqYYaedIDs+QIWq
 github.com/datapointchris/goclikit v0.5.2/go.mod h1:hEbplQyvrWq5m5UepXVNKfv8jvvlmQshNMrWdoHBb6Y=
 github.com/datapointchris/goselfupdate v0.11.2 h1:7aiYmeatQnfLqHiFawNlFHUohxAyOsiKyio8Vosje4I=
 github.com/datapointchris/goselfupdate v0.11.2/go.mod h1:k3gVv/y3AwoAyGGn5sN/UcAxhANB2W+GdN9rYw/oob4=
+github.com/datapointchris/gotermstyle v0.6.0 h1:udz3/YAib//g5TUVacfHJaYlbuisyk005JyL5ed4B4c=
+github.com/datapointchris/gotermstyle v0.6.0/go.mod h1:pKINTy5wt7+1No+qXub+BoyOeZiLC/MYunXL/l9i1j4=
 github.com/inconshreveable/mousetrap v1.1.0 h1:wN+x4NVGpMsO7ErUn/mUI3vEoE6Jt13X2s0bqwp9tc8=
 github.com/inconshreveable/mousetrap v1.1.0/go.mod h1:vpF70FUmC8bwa3OWnCshd2FqLfsEA9PFc4w1p2J65bw=
 github.com/russross/blackfriday/v2 v2.1.0/go.mod h1:+Rmxgy9KzJVeS9/2gXHxylqXiyQDYRxCVz55jmeOWTM=

@@ -7,6 +7,7 @@ toolchain go1.26.11
 require (
 	github.com/datapointchris/goclikit v0.5.2
 	github.com/datapointchris/goselfupdate v0.11.2
+	github.com/datapointchris/gotermstyle v0.6.0
 	github.com/spf13/cobra v1.10.2
 )
 
