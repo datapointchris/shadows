@@ -40,7 +40,7 @@ ls -la
 # Key files and packages:
 # main.go     - Entry point and cobra command tree
 # config/     - Configuration loading and types
-# gitignore/  - Gitignore parsing
+# exclude/    - Reading and writing .git/info/exclude
 # docs/       - Documentation
 ```
 
@@ -94,10 +94,10 @@ This shows you:
 - Error handling patterns
 - Working with the filesystem
 
-### 4. Examine the gitignore package
+### 4. Examine the exclude package
 
 ```bash
-code gitignore/exclude.go
+code exclude/exclude.go
 ```
 
 This demonstrates:

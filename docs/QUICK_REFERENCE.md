@@ -40,7 +40,7 @@ rm -rf bin/
 ```text
 main.go               → CLI entry point and commands
 config/               → Configuration and data types
-gitignore/            → .git/info/exclude utilities
+exclude/              → .git/info/exclude utilities
 database/             → SQLite operations (future)
 shadow/               → Shadow file operations (future)
 sync/                 → Sync logic (future)

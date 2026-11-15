@@ -1,5 +1,14 @@
-// Package gitignore provides utilities for working with Git's exclude files.
-package gitignore
+// Package exclude manages a repository's .git/info/exclude file.
+//
+// Git reads ignore rules from two kinds of file. A .gitignore is committed
+// and shared with everyone who clones the repository. .git/info/exclude uses
+// the same pattern syntax but stays on the local machine and is never
+// committed. Shadows writes only the second, so tracking a personal file
+// never changes what the rest of the team sees.
+//
+// Callers name the package with each call, as in exclude.Add, so the
+// function names leave out the word "exclude".
+package exclude
 
 import (
 	"bufio"
@@ -9,9 +18,9 @@ import (
 	"strings"
 )
 
-// GetExcludeFilePath returns the path to .git/info/exclude for a repository.
+// FilePath returns the path to .git/info/exclude for a repository.
 //
-// .git/info/exclude is a local gitignore file that's not committed to the repo.
+// .git/info/exclude holds ignore patterns that are not committed to the repo.
 // It's perfect for personal ignore rules that shouldn't affect the team.
 //
 // Parameters:
@@ -21,7 +30,7 @@ import (
 // Returns:
 //   - path to .git/info/exclude
 //   - error if the repository doesn't have a .git directory
-func GetExcludeFilePath(repoPath string) (string, error) {
+func FilePath(repoPath string) (string, error) {
 	// Build the path to .git/info/exclude
 	// filepath.Join handles OS-specific path separators
 	excludePath := filepath.Join(repoPath, ".git", "info", "exclude")
@@ -38,7 +47,7 @@ func GetExcludeFilePath(repoPath string) (string, error) {
 	return excludePath, nil
 }
 
-// AddToExclude adds a path pattern to .git/info/exclude.
+// Add adds a path pattern to .git/info/exclude.
 //
 // This ensures the file is ignored by Git in your local repository
 // without modifying .gitignore (which would affect the whole team).
@@ -55,8 +64,8 @@ func GetExcludeFilePath(repoPath string) (string, error) {
 //   - If the pattern already exists, this is a no-op (not an error)
 //   - Creates .git/info/exclude if it doesn't exist
 //   - Preserves existing entries in the file
-func AddToExclude(repoPath, pattern string) (err error) {
-	excludePath, err := GetExcludeFilePath(repoPath)
+func Add(repoPath, pattern string) (err error) {
+	excludePath, err := FilePath(repoPath)
 	if err != nil {
 		return err
 	}
@@ -107,7 +116,7 @@ func AddToExclude(repoPath, pattern string) (err error) {
 	return nil
 }
 
-// RemoveFromExclude removes a path pattern from .git/info/exclude.
+// Remove removes a path pattern from .git/info/exclude.
 //
 // This is used when promoting a shadow file to the work repository.
 // Once promoted, we want Git to start tracking it.
@@ -123,8 +132,8 @@ func AddToExclude(repoPath, pattern string) (err error) {
 // Notes:
 //   - If the pattern doesn't exist, this is a no-op (not an error)
 //   - Preserves all other entries in the file
-func RemoveFromExclude(repoPath, pattern string) error {
-	excludePath, err := GetExcludeFilePath(repoPath)
+func Remove(repoPath, pattern string) error {
+	excludePath, err := FilePath(repoPath)
 	if err != nil {
 		return err
 	}
@@ -160,11 +169,11 @@ func RemoveFromExclude(repoPath, pattern string) error {
 	return writeLines(excludePath, newLines)
 }
 
-// IsInExclude checks if a pattern exists in .git/info/exclude.
+// Contains checks if a pattern exists in .git/info/exclude.
 //
 // Useful for checking if a file is already being excluded before adding it.
-func IsInExclude(repoPath, pattern string) (bool, error) {
-	excludePath, err := GetExcludeFilePath(repoPath)
+func Contains(repoPath, pattern string) (bool, error) {
+	excludePath, err := FilePath(repoPath)
 	if err != nil {
 		return false, err
 	}

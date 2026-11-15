@@ -280,14 +280,14 @@ func PromoteFile(repoName, filePath string) error
       - If neither modified: skip
 ```
 
-### 6. Git Operations (`gitignore/`)
+### 6. Local Exclude File (`exclude/`)
 
-**Responsibility:** Interact with Git
+**Responsibility:** Keep shadow files out of the work repo's Git status
 
 - Add entries to .git/info/exclude
 - Remove entries from .git/info/exclude
-- Check if path is in a Git repository
-- Validate Git repository state
+- Check whether an entry is already there
+- Refuse a path that has no `.git` directory
 
 **Key Files:**
 
@@ -316,7 +316,7 @@ shadows/
 ├── config/
 │   ├── config.go               # Configuration management
 │   └── types.go                # Data structures
-├── gitignore/
+├── exclude/
 │   └── exclude.go              # .git/info/exclude management
 ├── database/                    # SQLite operations (future)
 ├── shadow/                      # Core shadow file operations (future)

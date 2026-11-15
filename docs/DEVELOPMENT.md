@@ -70,7 +70,7 @@ shadows/
 ├── config/                      # Configuration management
 │   ├── config.go               # Load/save config
 │   └── types.go                # Data structures
-├── gitignore/                   # .git/info/exclude management
+├── exclude/                     # .git/info/exclude management
 │   └── exclude.go
 ├── database/                    # Database operations (future)
 ├── shadow/                      # Core shadow file operations (future)

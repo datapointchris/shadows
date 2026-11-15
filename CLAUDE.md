@@ -25,8 +25,8 @@ records which files are shadowed and where each repository lives.
 Anything that leaves the process goes through one named function, and every caller uses it.
 That function is where a timeout, a retry or a test stub attaches, once.
 
-- **`.git/info/exclude` in a work repo** is written only by package `gitignore`:
-  `AddToExclude` creates `.git/info` if missing and appends, and `RemoveFromExclude` rewrites
+- **`.git/info/exclude` in a work repo** is written only by package `exclude`:
+  `exclude.Add` creates `.git/info` if missing and appends, and `exclude.Remove` rewrites
   the file through `writeLines`.
 - **The shadows data directory** is created only by `config.EnsureShadowsDir`.
 
