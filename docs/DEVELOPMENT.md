@@ -111,7 +111,7 @@ go test -cover ./...
 go test ./config
 
 # Run a specific test
-go test -run TestConfigLoad ./config
+go test -run TestLoadConfig ./config
 
 # Build for specific OS (cross-compilation)
 GOOS=windows GOARCH=amd64 go build -o bin/shadows.exe .
@@ -197,69 +197,60 @@ Follow the TODO comments in the scaffold code!
 
 ### Writing Tests
 
-Go makes testing easy. For every file `foo.go`, create a test file `foo_test.go`.
+Go makes testing easy. Tests for `foo.go` go in `foo_test.go`, in the same package.
 
-**Example: config_test.go**
+**Example:** `config/config_test.go` tests `config/config.go`. Read it alongside this section:
 
-```go
-package config
+- `TestLoadConfig` uses `t.Run` subtests for the two answers `LoadConfig` gives, and
+  `t.TempDir` so it never touches a real config file.
+- `TestDefaultPaths` uses `t.Setenv` to point `HOME` and the XDG variables at temporary
+  directories, and a helper marked `t.Helper()` so a failure reports the caller's line.
 
-import "testing"
-
-func TestLoadConfig(t *testing.T) {
-    // Arrange
-    configPath := "/tmp/test-config.toml"
-
-    // Act
-    cfg, err := LoadConfig(configPath)
-
-    // Assert
-    if err != nil {
-        t.Fatalf("LoadConfig() failed: %v", err)
-    }
-
-    if cfg == nil {
-        t.Error("LoadConfig() returned nil config")
-    }
-}
-```
+`main_test.go` shows the other kind: a test that runs the CLI through `Execute()`, the
+function `main()` calls, with `rootCmd.SetArgs` standing in for the command line.
 
 ### Table-Driven Tests (Go's Idiomatic Way)
 
+When several cases share one shape, list them in a table and loop over it. This one checks
+`GetDefaultConfigDir` against the three ways `XDG_CONFIG_HOME` can be set:
+
 ```go
-func TestValidatePath(t *testing.T) {
+func TestGetDefaultConfigDir(t *testing.T) {
+    home := t.TempDir()
+    t.Setenv("HOME", home)
+    t.Setenv("USERPROFILE", home) // os.UserHomeDir reads this on Windows
+
     tests := []struct {
-        name    string
-        path    string
-        wantErr bool
+        name  string
+        value string // what XDG_CONFIG_HOME is set to
+        want  string
     }{
         {
-            name:    "valid relative path",
-            path:    "tests/test_file.py",
-            wantErr: false,
+            name:  "absolute value is used",
+            value: "/srv/config",
+            want:  filepath.Join("/srv/config", "shadows"),
         },
         {
-            name:    "valid nested path",
-            path:    "src/utils/helper.go",
-            wantErr: false,
+            name:  "unset falls back to the home directory",
+            value: "",
+            want:  filepath.Join(home, ".config", "shadows"),
         },
         {
-            name:    "absolute path should fail",
-            path:    "/etc/passwd",
-            wantErr: true,
-        },
-        {
-            name:    "empty path should fail",
-            path:    "",
-            wantErr: true,
+            name:  "relative value is ignored",
+            value: "relative/config",
+            want:  filepath.Join(home, ".config", "shadows"),
         },
     }
 
     for _, tt := range tests {
         t.Run(tt.name, func(t *testing.T) {
-            err := ValidatePath(tt.path)
-            if (err != nil) != tt.wantErr {
-                t.Errorf("ValidatePath(%q) error = %v, wantErr %v", tt.path, err, tt.wantErr)
+            t.Setenv("XDG_CONFIG_HOME", tt.value)
+            got, err := GetDefaultConfigDir()
+            if err != nil {
+                t.Fatalf("GetDefaultConfigDir() error = %v", err)
+            }
+            if got != tt.want {
+                t.Errorf("GetDefaultConfigDir() = %q, want %q", got, tt.want)
             }
         })
     }
