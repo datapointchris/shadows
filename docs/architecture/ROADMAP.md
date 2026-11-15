@@ -65,7 +65,6 @@ This roadmap outlines the planned development phases for Shadows. Each phase bui
 - Working CLI tool
 - Basic file tracking
 - Documentation for commands
-- Test coverage > 50%
 
 ### Success Criteria
 
@@ -432,11 +431,10 @@ Throughout all phases, we maintain these principles:
 
 1. **Learning First** - Code is well-documented for learning Go
 2. **Idiomatic Go** - Follow Go best practices and conventions
-3. **Test Coverage** - Maintain >70% test coverage
-4. **User Experience** - Clear error messages, helpful output
-5. **Documentation** - Keep docs up to date with code
-6. **Incremental** - Each phase is usable on its own
-7. **Backward Compatible** - Don't break existing functionality
+3. **User Experience** - Clear error messages, helpful output
+4. **Documentation** - Keep docs up to date with code
+5. **Incremental** - Each phase is usable on its own
+6. **Backward Compatible** - Don't break existing functionality
 
 ---
 

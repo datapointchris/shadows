@@ -37,11 +37,7 @@ cd shadows
 go mod tidy
 ```
 
-This will download all required packages:
-
-- `github.com/spf13/cobra` - CLI framework
-- `github.com/charmbracelet/bubbletea` - TUI framework (for later phases)
-- `modernc.org/sqlite` - SQLite database driver
+This downloads every module in the `require` blocks of [go.mod](../go.mod), which is the one list of dependencies.
 
 ### 4. Build the Project
 

@@ -1,4 +1,12 @@
 // Package config handles configuration management for Shadows.
+//
+// This package defines the data structures used throughout the application
+// and provides functions for loading and saving configuration.
+//
+// In Go, a package is a collection of related .go files in the same directory.
+// All files in this directory should have 'package config' at the top. Only
+// this file carries the package comment, because go doc joins the package
+// comments of every file, so a second one repeats the summary.
 package config
 
 import (

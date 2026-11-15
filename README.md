@@ -33,17 +33,11 @@ Shadows provides:
 
 ## Project Status
 
-=� **In Development** - This is a learning project built while learning Go. Expect rough edges!
+**In Development** - This is a learning project built while learning Go. Expect rough edges!
 
-Current Phase: **Phase 1 - MVP**
-
-- [ ] Basic CLI structure
-- [ ] Initialize shadow tracking for a repo
-- [ ] Add files to shadow tracking
-- [ ] List shadow files
-- [ ] Basic sync between locations
-
-See [docs/architecture/ROADMAP.md](docs/architecture/ROADMAP.md) for full development plan.
+The CLI is in place, and `shadows --help` lists the commands that ship today. The workflow under
+Basic Usage below is the plan rather than what runs yet. See
+[docs/architecture/ROADMAP.md](docs/architecture/ROADMAP.md) for the plan phase by phase.
 
 ## Quick Start
 
@@ -98,7 +92,6 @@ This project includes extensive documentation for both the project and learning 
 
 ### For Users
 
-- [User Guide](docs/USER_GUIDE.md) - How to use Shadows
 - [Command Reference](docs/api/COMMANDS.md) - Detailed command documentation
 - [Architecture Overview](docs/architecture/OVERVIEW.md) - How Shadows works
 
@@ -106,9 +99,7 @@ This project includes extensive documentation for both the project and learning 
 
 - [Getting Started](GETTING_STARTED.md) - Set up the toolchain and make your first change
 - [Go Learning Path](docs/learning/GO_BASICS.md) - Learn Go while building this project
-- [Project Structure](docs/architecture/PROJECT_STRUCTURE.md) - How the codebase is organized
 - [Development Guide](docs/DEVELOPMENT.md) - How to contribute and develop
-- [Design Decisions](docs/architecture/DESIGN_DECISIONS.md) - Why things are built this way
 
 ## Project Goals
 
@@ -130,7 +121,5 @@ MIT License - See [LICENSE](LICENSE) for details
 Built with:
 
 - [Cobra](https://github.com/spf13/cobra) - CLI framework
-- [Bubbletea](https://github.com/charmbracelet/bubbletea) - TUI framework
-- [modernc.org/sqlite](https://gitlab.com/cznic/sqlite) - Pure Go SQLite
 
 Inspired by Git's power and the need for better personal file management in professional environments.

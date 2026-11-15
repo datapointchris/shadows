@@ -311,7 +311,6 @@ go doc -http=:6060
 - **Error messages**: Lowercase, no punctuation at end
 - **Struct tags**: Use for serialization (`json:"name"`)
 - **Tests**: Use table-driven tests
-- **Coverage**: Aim for >70%
 
 ## Resources Quick Links
 
