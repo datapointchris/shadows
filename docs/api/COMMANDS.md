@@ -188,7 +188,7 @@ shadows remove tests/test_old_experiment.py
 
 1. Marks file as "deleted" in database
 2. Removes from `.git/info/exclude`
-3. Optionally deletes the file
+3. With `--delete`, deletes the file from disk once confirmed
 
 **Arguments:**
 
@@ -198,6 +198,21 @@ shadows remove tests/test_old_experiment.py
 
 - `--delete` - Also delete the file from disk
 - `--keep-shadow` - Keep in shadow repo for history
+- `--yes, -y` - Delete without asking, for scripts
+
+**Confirmation:**
+
+Deleting a file cannot be undone from the work repo, so `--delete` asks first. On a
+terminal it names the file and waits for an answer, and anything but `y` leaves the file in
+place:
+
+```text
+Delete tests/test_old.py from disk? [y/N]:
+```
+
+When stdin is not a terminal, nothing can answer, so `--delete` without `--yes` deletes
+nothing. It exits `2` with an error naming `--yes`, rather than waiting on input that never
+comes. Without `--delete`, the file stays on disk and `remove` asks nothing.
 
 **Examples:**
 
@@ -205,8 +220,11 @@ shadows remove tests/test_old_experiment.py
 # Stop tracking but keep file
 shadows remove tests/test_experiment.py
 
-# Stop tracking and delete file
+# Stop tracking and delete file (asks first)
 shadows remove --delete tests/test_old.py
+
+# Same, from a script
+shadows remove --delete --yes tests/test_old.py
 ```
 
 **Phase:** 1 (MVP)
@@ -409,12 +427,30 @@ shadows restore tests/test_experiment.py --version HEAD~1
 **Flags:**
 
 - `--version <ref>` - Git ref to restore (commit hash, HEAD~n, etc.)
+- `--yes, -y` - Overwrite without asking, for scripts
+
+**Confirmation:**
+
+`restore` overwrites the file in the work repo. Every version the shadow repo holds can be
+restored again, but changes made since the last sync exist nowhere else. So when the file
+has such changes, `restore` asks first. On a terminal it names the file and the ref, and
+anything but `y` leaves the file as it is:
+
+```text
+tests/test.py has changes not in the shadow repo. Overwrite it with HEAD~1? [y/N]:
+```
+
+When stdin is not a terminal, `restore` without `--yes` overwrites nothing in that case. It
+exits `2` with an error naming `--yes`, rather than waiting on input that never comes.
 
 **Examples:**
 
 ```bash
-# Restore to previous version
+# Restore to previous version (asks first if the file has unsynced changes)
 shadows restore tests/test.py --version HEAD~1
+
+# Same, from a script
+shadows restore tests/test.py --version HEAD~1 --yes
 
 # Restore to specific commit
 shadows restore tests/test.py --version a3f8c2d
