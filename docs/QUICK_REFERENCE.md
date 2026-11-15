@@ -38,12 +38,10 @@ rm -rf bin/
 ## File Structure Quick Reference
 
 ```text
-main.go               → CLI entry point and commands
+main.go               → CLI entry point and root command
+config_command.go     → shadows config path
 config/               → Configuration and data types
 exclude/              → .git/info/exclude utilities
-database/             → SQLite operations (future)
-shadow/               → Shadow file operations (future)
-sync/                 → Sync logic (future)
 docs/                 → All documentation
 ```
 

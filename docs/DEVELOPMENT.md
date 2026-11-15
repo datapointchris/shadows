@@ -67,15 +67,17 @@ The extension will prompt you to install Go tools. Click "Install All".
 ```text
 shadows/
 ├── main.go                      # Entry point - start here!
+├── main_test.go                 # Tests that run the CLI through Execute
+├── config_command.go            # shadows config path
 ├── config/                      # Configuration management
 │   ├── config.go               # Load/save config
+│   ├── config_test.go          # Tests for config.go
 │   └── types.go                # Data structures
-├── exclude/                     # .git/info/exclude management
-│   └── exclude.go
-├── database/                    # Database operations (future)
-├── shadow/                      # Core shadow file operations (future)
-└── sync/                        # Sync operations (future)
+└── exclude/                     # .git/info/exclude management
+    └── exclude.go
 ```
+
+The packages still to come are described in `docs/architecture/OVERVIEW.md` § "Components".
 
 ### Building and Running
 

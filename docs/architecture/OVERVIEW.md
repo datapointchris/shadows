@@ -124,6 +124,9 @@ Windows: User runs: shadows sync
 
 ## Components
 
+The CLI layer, `config/` and `exclude/` exist. The database, shadow, sync and UI packages are
+the design for what comes next, and `ROADMAP.md` gives the phase each arrives in.
+
 ### 1. CLI Layer (`main.go` + command files)
 
 **Responsibility:** User interface
@@ -312,19 +315,20 @@ func PromoteFile(repoName, filePath string) error
 
 ```text
 shadows/
-├── main.go                      # Entry point
+├── main.go                      # Entry point and root command
+├── main_test.go                 # Tests that run the CLI through Execute
+├── config_command.go            # shadows config path
 ├── config/
 │   ├── config.go               # Configuration management
+│   ├── config_test.go          # Path resolution and loading tests
 │   └── types.go                # Data structures
 ├── exclude/
 │   └── exclude.go              # .git/info/exclude management
-├── database/                    # SQLite operations (future)
-├── shadow/                      # Core shadow file operations (future)
-├── sync/                        # Sync logic (future)
 ├── docs/                        # Documentation
 │   ├── learning/               # Learning materials
 │   ├── architecture/           # Architecture docs
 │   └── api/                    # API/command reference
+├── Taskfile.yml                 # build, test, lint and format tasks
 ├── go.mod                       # Go module definition
 ├── go.sum                       # Dependency checksums
 ├── README.md                    # Project overview
