@@ -747,12 +747,14 @@ func isGitRepo(path string) bool {
 
 ### Phase 1: Start Simple
 
-**Your first task:** Build the basic CLI structure
+**Your first task:** Add the first working subcommand
 
-1. Edit `main.go` at the repo root to start with a simple "Hello, world!"
-2. Add Cobra and create root command
-3. Add `init` subcommand that just prints a message
-4. Build and run: `go build -o bin/shadows .`
+`main.go` already holds the Cobra root command, `rootCmd`, and `config_command.go` shows a
+subcommand registered on it.
+
+1. Read `main.go` and `config_command.go` to see how a command is defined and registered
+2. Add an `init` subcommand that just prints a message, registered with `rootCmd.AddCommand`
+3. Build and run: `go build -o bin/shadows .`, then `./bin/shadows init`
 
 **Learning goals:**
 
@@ -776,11 +778,14 @@ func isGitRepo(path string) bool {
 
 ### Phase 3: Data Structures
 
-**Your third task:** Define our data models
+**Your third task:** Extend our data models
 
-1. Create `config/types.go`
-2. Define `Repository` and `ShadowFile` structs
-3. Add methods to these structs
+`config/types.go` already defines the `Repository` and `ShadowFile` structs, with methods such
+as `IsValid` and `IsPromoted`.
+
+1. Read `config/types.go`, including its comments on struct tags and pointer receivers
+2. Add a method of your own to one of the structs, with a pointer receiver
+3. Test it in `config/` and run `go test ./config`
 
 **Learning goals:**
 
@@ -831,7 +836,7 @@ func isGitRepo(path string) bool {
 ## Tips for Learning
 
 1. **Read error messages carefully** - Go's error messages are usually very clear
-2. **Use `go fmt`** - Formats your code automatically (`go fmt ./...`)
+2. **Format with gofumpt** - Formats your code automatically (`task format`). It is a stricter `gofmt`, and the commit hooks require it
 3. **Run `go vet`** - Catches common mistakes (`go vet ./...`)
 4. **Read the standard library** - It's well-written and idiomatic
 5. **Don't fight the language** - Go has opinions; embrace them

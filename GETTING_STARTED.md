@@ -107,16 +107,17 @@ This demonstrates:
 - Helper functions
 - Documentation practices
 
-## Step 4: Your First Task - Build the CLI
+## Step 4: Your First Task - Build and Run the CLI
 
-Let's implement the basic CLI structure with actual commands!
+The basic CLI structure already exists: `main.go` holds the Cobra root command, and
+`config_command.go` adds `shadows config path`. Format, check and build it before adding commands.
 
-### Task: Make `shadows --help` more functional
+### Task: Build the CLI and read its help
 
 1. **Format the existing code**
 
    ```bash
-   go fmt ./...
+   task format
    ```
 
 2. **Check for issues**
@@ -187,7 +188,7 @@ For each feature:
 
    ```bash
    go test ./...
-   go fmt ./...
+   task format
    go vet ./...
    ```
 
@@ -259,7 +260,7 @@ go test -cover ./...
 
 ### Q: How do I know if my code is "good Go"?
 
-**A:** Run `go fmt ./...` and `go vet ./...`. Read through examples in the standard library. Keep it simple!
+**A:** Run `task format` and `go vet ./...`. Read through examples in the standard library. Keep it simple!
 
 ## Development Workflow Example
 
@@ -285,7 +286,7 @@ touch database/db_test.go
 go test ./database
 
 # 7. Format and check
-go fmt ./...
+task format
 go vet ./...
 
 # 8. Build and try it
@@ -314,7 +315,7 @@ git merge feature/database-schema
 
 6. **Use the standard library** - Before adding a dependency, check if the standard library has what you need.
 
-7. **Format always** - Run `go fmt ./...` before every commit. It's automatic and prevents style debates.
+7. **Format always** - Run `task format` before every commit. It runs gofumpt, a stricter `gofmt` that the commit hooks require, so code `go fmt` accepts can still fail the commit.
 
 ## Ready to Build?
 

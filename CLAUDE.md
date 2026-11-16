@@ -37,7 +37,7 @@ beside the two above. No other package calls `exec.Command` or opens the databas
 ## Development Workflow
 
 Go conventions, error handling, package layout and testing follow ordinary Go practice:
-`gofmt`, wrapped errors with `%w`, and table-driven tests where cases share a shape. Nothing
+gofumpt formatting through `task format`, which the commit hooks enforce, wrapped errors with `%w`, and table-driven tests where cases share a shape. Nothing
 about them is specific to shadows, so this file does not restate them. The comment policy is
 the one exception, set out under Key Design Decisions.
 

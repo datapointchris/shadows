@@ -155,28 +155,14 @@ the design for what comes next, and `ROADMAP.md` gives the phase each arrives in
 - `config.go` - Configuration loading/saving
 - `types.go` - Data structure definitions
 
-**Data Structures:**
+**Data Structures:** `config/types.go` defines both, with a comment on every field.
 
-```go
-type Repository struct {
-    ID              int
-    Name            string
-    WSLPath         string
-    WindowsPath     string
-    ShadowRepoPath  string
-    GitRemote       string
-    ActiveLocation  string
-}
-
-type ShadowFile struct {
-    ID           int
-    RepositoryID int
-    RelativePath string
-    Status       string  // "shadowed", "promoted", "deleted"
-    AddedDate    time.Time
-    PromotedDate *time.Time
-}
-```
+- `Repository` is one work repository under shadow tracking: its name, its WSL and Windows
+  paths, where its shadow storage lives, an optional Git remote for backup, and which location
+  was last worked in.
+- `ShadowFile` is one tracked file: the repository it belongs to, its path relative to that
+  repository's root, its status (shadowed, promoted or deleted), and when it was added and
+  promoted.
 
 ### 3. Database (`database/`)
 

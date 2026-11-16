@@ -95,8 +95,8 @@ go run . <command>
 ### Common Commands During Development
 
 ```bash
-# Format code (always do this before committing!)
-go fmt ./...
+# Format code with gofumpt (always do this before committing!)
+task format
 
 # Check for common mistakes
 go vet ./...
@@ -134,7 +134,7 @@ GOOS=linux GOARCH=amd64 go build -o bin/shadows .
 3. **Test your changes**
 
    ```bash
-   go fmt ./...
+   task format
    go vet ./...
    go test ./...
    ```
@@ -152,9 +152,9 @@ GOOS=linux GOARCH=amd64 go build -o bin/shadows .
    git push origin feature/your-feature-name
    ```
 
-## Your First Task: Build the CLI Structure
+## Your First Task: Add the `init` Command
 
-Let's start by building the basic CLI structure with Cobra.
+The basic CLI structure with Cobra already exists in `main.go`. The first task adds a command to it.
 
 ### Step 1: Understand main.go
 
@@ -368,7 +368,7 @@ go mod tidy
 
 ### 1. Follow Go Conventions
 
-- Use `gofmt` - Run `go fmt ./...` before committing
+- Use gofumpt - Run `task format` before committing. gofumpt is a stricter `gofmt`, and the commit hooks reject code it would change
 - Exported names start with capital letters: `LoadConfig()`
 - Unexported names start with lowercase: `validatePath()`
 - Use short variable names in small scopes: `i`, `err`, `db`

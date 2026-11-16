@@ -14,8 +14,8 @@ go run . [args]
 # Install dependencies
 go mod tidy
 
-# Format code
-go fmt ./...
+# Format code with gofumpt, the formatter the commit hooks require
+task format
 
 # Check for issues
 go vet ./...
@@ -255,7 +255,7 @@ panic(fmt.Sprintf("unexpected: %v", value))
 
 Before committing:
 
-- [ ] `go fmt ./...` - Format code
+- [ ] `task format` - Format code with gofumpt
 - [ ] `go vet ./...` - Check for issues
 - [ ] `go test ./...` - Run tests
 - [ ] `go build -o bin/shadows .` - Build succeeds
