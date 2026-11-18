@@ -399,17 +399,26 @@ Shadows is a private CLI with no external consumers. The `internal/` enforcement
 
 ## Security Considerations
 
-1. **No credentials in database** - We don't store Git credentials
-2. **Personal remotes** - Users can use their own Git remotes
-3. **Local only** - Database is local to the machine
-4. **No network operations** - Except optional Git push/pull
+What the code does today:
+
+1. **Local paths only** - `config/` resolves the config and data directories under the XDG base
+   directories, and nothing else on disk is touched
+2. **One file in the work repo** - `exclude/` writes `.git/info/exclude` and nothing else there
+3. **No network operations** - The code makes no network call and runs no subprocess
+
+Design goals for the database, shadow and sync packages, which are not built yet:
+
+1. **No credentials in the database** - Git credentials stay with Git
+2. **Personal remotes** - A shadow repository's Git remote is optional and the user's own
+3. **Network only through Git** - The one network operation is an optional Git push or pull
 
 ## Performance Considerations
 
-1. **Lazy loading** - Only load data when needed
-2. **Indexed queries** - Database has proper indices
-3. **Minimal file copying** - Only copy when necessary
-4. **Git efficiency** - Git only stores diffs, not full files
+These are design goals for the shadow and sync packages, which are not built yet:
+
+1. **Minimal file copying** - Copy a file only when one side has changed
+2. **Git storage** - Git stores each version of a file whole and delta-compresses them in its
+   pack files, so a small edit to a large file costs little once packed
 
 ## Future Enhancements
 
