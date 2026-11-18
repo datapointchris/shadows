@@ -53,7 +53,7 @@ var rootCmd = &cobra.Command{
 in work repositories but shouldn't be committed.
 
 It allows you to:
-  - Track personal files (tests, scripts, experiments) separately from your work repo
+  - Track personal tests, scripts and experiments apart from your work repo
   - Sync these files between environments (WSL/Windows, multiple machines)
   - Version control your personal files with Git
   - Promote files to your work repo when ready
