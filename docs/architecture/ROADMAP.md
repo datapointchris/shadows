@@ -461,7 +461,6 @@ Throughout all phases, we maintain these principles:
 If you have ideas for features or improvements to the roadmap, please:
 
 1. Open an issue on GitHub
-2. Discuss in the project Discord/Slack
-3. Submit a PR with proposed changes to this roadmap
+2. Submit a PR with proposed changes to this roadmap
 
 This roadmap is a living document and will evolve as the project progresses!
