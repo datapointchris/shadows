@@ -183,7 +183,7 @@ func DefaultConfig() *Config {
 		// We'll set these properly when we implement config loading
 		// For now, these are placeholders
 		ShadowsDir:        "", // Set by createDefaultConfig from GetDefaultShadowsDir
-		DatabasePath:      "", // Set by createDefaultConfig from GetDefaultDatabasePath
+		DatabasePath:      "", // Set by createDefaultConfig, as shadows.db inside ShadowsDir
 		DefaultRemoteBase: "",
 		AutoCommit:        true,  // Default to auto-committing
 		AutoSyncOnInit:    false, // Default to not auto-syncing

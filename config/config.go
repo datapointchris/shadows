@@ -86,8 +86,15 @@ func GetDefaultDatabasePath() (string, error) {
 		return "", err
 	}
 
-	dbPath := filepath.Join(shadowsDir, "shadows.db")
-	return dbPath, nil
+	return databasePathIn(shadowsDir), nil
+}
+
+// databasePathIn returns where the SQLite database lives inside a Shadows
+// data directory. It is the one place that names the database file, so a
+// caller already holding the data directory joins it here rather than
+// resolving the directory a second time.
+func databasePathIn(shadowsDir string) string {
+	return filepath.Join(shadowsDir, "shadows.db")
 }
 
 // GetDefaultConfigPath returns the default path to the config file.
@@ -175,12 +182,7 @@ func createDefaultConfig() (*Config, error) {
 		return nil, err
 	}
 	cfg.ShadowsDir = shadowsDir
-
-	dbPath, err := GetDefaultDatabasePath()
-	if err != nil {
-		return nil, err
-	}
-	cfg.DatabasePath = dbPath
+	cfg.DatabasePath = databasePathIn(shadowsDir)
 
 	return cfg, nil
 }
