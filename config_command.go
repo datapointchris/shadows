@@ -25,6 +25,11 @@ var configCmd = &cobra.Command{
 var configPathCmd = &cobra.Command{
 	Use:   "path",
 	Short: "Print the path of the config file Shadows reads",
+	// Example is printed under "Examples:" in 'shadows config path --help'.
+	// Cobra prints the string as written, so the two-space indent and the
+	// column the descriptions line up in are typed here by hand.
+	Example: `  shadows config path                print the default config file's path
+  shadows config path -c ./alt.toml  print the path given, without checking it exists`,
 	// cobra.NoArgs refuses any positional argument as a usage error.
 	Args: cobra.NoArgs,
 	RunE: func(cmd *cobra.Command, args []string) error {
